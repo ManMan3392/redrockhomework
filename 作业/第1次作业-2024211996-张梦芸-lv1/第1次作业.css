@@ -1,0 +1,50 @@
+.f a {
+    display: inline-block;
+    color: black;
+    width: 80px;
+    text-align: center;
+}
+.f a:hover{
+    background-color: deepskyblue;
+    color:rgb(238, 245, 247) ;
+}
+.f {
+    text-align: right;
+    
+}
+.p {
+    background-image: url(百度图标.img);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 258px;
+    
+}
+.t {
+    text-align:center; 
+    
+}
+.pp {
+    background-image: url(二维码.img);
+    height: 300px;
+    background-repeat: no-repeat;
+    
+    background-position:bottom center;
+
+}
+.e {
+    text-align:center;
+    height: 50px;
+}
+.d a {
+    display: inline-block;
+    color: grey;
+    width: 120px;
+    text-align:center;
+}
+.d{
+    text-align:center;
+}
+.y {
+    text-align:center;
+    height: 10px;
+}
