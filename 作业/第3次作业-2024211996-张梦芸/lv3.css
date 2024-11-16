@@ -1,0 +1,35 @@
+.box {
+    display: flex;
+    height: 1000px;
+    align-items: center;
+
+}
+* {
+    border: 1px solid black;
+}
+.box1 {
+    width: 100px;
+    height: 500px;
+    flex-grow: 0;
+}
+.box2 {
+    width: 100px;
+    height: 400px;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+.box3 {
+    /* width: 100px; */
+    height: 100px;
+    align-self: flex-start;
+    flex-shrink: 1;
+}
+.box4 {
+    /* width: 100px; */
+    height: 800px;
+    align-self: flex-start;
+    flex-shrink: 10;
+}
+p {
+    border: none;
+}
