@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .top {
+            display: flex;
+            justify-content: flex-start ;
+        }
+        .middle{
+            display: flex;
+            justify-content: flex-start;
+            align-items: end;
+        }
+       .title {
+        padding: 5px;
+        padding-top: 0%;
+        font-size: large;
+       }
+       .enter {
+        margin-left: auto;
+       }
+       .title2 {
+        font-size: large;
+       }
+       .box1 {
+       background-image: url(../图片/头像.png);
+       border-radius: 50%;
+       height: 50px;
+       width: 50px;
+       background-position: center;
+       }
+      .mname {
+        font-size: 18px;
+        color: rgb(30, 222, 122);
+        margin-top: 0cap;
+      }
+      .vip {
+        border-radius:5px;
+        width: 50px;
+        height: 10px;
+        background-color: black;
+        color: azure;
+        padding: 5px;
+        line-height: 10px;
+      }
+      .box2 {
+        display: flex;
+        align-self: flex-start;
+        margin-top: auto;
+        height: 35px;
+      }
+      .uname {
+        padding: 5px;
+        padding-top: 0%;
+      }
+      .comment {
+        display: flex;
+      }
+      .cwrite {
+        padding: 5px;
+        padding-top: 0px;
+      }
+      .time {
+        color: rgb(123, 123, 116);
+        font-size: small;
+        align-self: self-end;
+        align-self: flex-start;
+        padding-left: 5px;
+      }
+      .uhidden {
+        display: none;
+      }
+      .hold {
+        color: rgb(123, 123, 116);
+        font-size: small;
+        text-align: center;
+        display: block;
+      }
+      .below 
+      {
+            display: flex;
+            justify-content: flex-start;
+            align-items: end;
+      }
+      .good {
+        margin-left: auto;
+      }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <div class="title1 title">歌曲列表</div>
+        <div class="title21 title">评论(0)</div>
+        <div class="title3 title">收藏者</div>
+    </div>
+    <div >
+        <textarea class="write" placeholder="良言一句三冬暖，恶语伤人六月寒" rows="3" cols="20">
+        </textarea>
+        
+</div>
+      <div class="middle">
+        <div>#</div>
+        <div>@</div>
+        <div>😊</div>
+        <button class="enter">发送</button>
+      </div>
+  <div class="uhidden">
+    <h1 class="title2">最新评论(1)</h1>
+    <div class="comment">
+        <div class="box1"></div>
+        <div>
+          <div class="box2">
+            <div class="uname"><p class="mname">慢慢</p></div>
+            <div class="vip">svip.7</div>
+            <div>:</div>
+            <div class="cwrite">:评论内容</div>
+          </div>
+          <div class="below">
+            <div class="time">时间</div>
+            <div class="good">
+              👍| → | ₪
+            </div>
+          </div>
+          </div>
+    </div>
+  </div>
+  <div class="hold">
+    还没有评论，快来抢沙发吧！
+  </div>
+<script>
+const title2 = document.querySelector('.title2')
+const write = document.querySelector('.write')
+const uhidden = document.querySelector('.uhidden')
+const cwrite = document.querySelector('.cwrite')
+const button = document.querySelector('button')
+const hold = document.querySelector('.hold')
+const title21 = document.querySelector('.title21')
+write.addEventListener('keyup',function(e)
+{
+  if (e.key === 'Enter')
+{
+  if (write.value.trim())
+{
+ uhidden.style.display = 'block'
+ cwrite.innerHTML = write.value
+ hold.style.display ='none'
+ title21.innerHTML = `评论(1)`
+}
+write.value = ''
+}
+}
+)
+button.addEventListener('click',function()
+{
+  if (write.value.trim())
+{
+ uhidden.style.display = 'block'
+ cwrite.innerHTML = write.value
+ hold.style.display ='none'
+ title21.innerHTML = `评论(1)`
+}
+write.value = ''
+})
+
+</script>
+</body>
+</html>
