@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'icomoon';
+            src: url('fonts/icomoon.eot?fp6hqf');
+            src: url('fonts/icomoon.eot?fp6hqf#iefix') format('embedded-opentype'),
+                url('fonts/icomoon.ttf?fp6hqf') format('truetype'),
+                url('fonts/icomoon.woff?fp6hqf') format('woff'),
+                url('fonts/icomoon.svg?fp6hqf#icomoon') format('svg');
+            font-weight: normal;
+            font-style: normal;
+            font-display: block;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .w {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        .top {
+
+            width: 500px;
+            height: 50px;
+        }
+
+        .left {
+            position: relative;
+            float: left;
+            width: 50px;
+            height: 50px;
+        }
+
+        .left::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 0;
+            height: 0;
+            border: 25px solid transparent;
+            border-bottom-color: white;
+            border-right-color: white;
+        }
+
+        .right {
+            float: right;
+            width: 50px;
+            height: 50px;
+            font-family: 'icomoon';
+            text-align: center;
+            line-height: 50px;
+            font-size: 30px;
+        }
+
+        .safe {
+            float: left;
+            position: relative;
+            width: 120px;
+            height: 25px;
+            margin: 12px;
+            font-size: small;
+            text-align: center;
+            line-height: 23px;
+            background-color: rgb(194, 191, 191);
+            color: white;
+            border-radius: 3px;
+        }
+
+        .safe::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border: 0 solid;
+            border-top: 3px solid rgb(194, 191, 191);
+            border-left: 6px solid transparent;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            margin-top: 5px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            text-align: center;
+            margin: 0 auto;
+            width: 80%;
+        }
+
+        table {
+            border: 1px solid gainsboro;
+            margin: 0 auto;
+        }
+
+        td {
+            border: 1px solid gainsboro;
+            height: 45px;
+        }
+
+        .password,
+        .phone {
+            font-family: 'icomoon';
+            width: 100%;
+            background-color: transparent;
+            border: 0;
+        }
+
+        td input {
+            border: 0;
+            height: 40px;
+        }
+
+
+        .md {
+            margin-top: 20px;
+        }
+
+        .lleft {
+            float: left;
+            text-align: center;
+        }
+
+        .rright {
+            float: right;
+        }
+
+        .rright span {
+            padding: 0 10px;
+        }
+
+        .rright span:nth-child(1) {
+            border-right: 1px solid rgb(194, 191, 191);
+        }
+
+        .login {
+            height: 50px;
+            width: 100%;
+            margin-top: 50px;
+            background: linear-gradient(to bottom, rgb(249, 105, 105), rgb(242, 24, 24));
+        }
+
+        .sign a {
+            color: rgb(102, 105, 107);
+        }
+
+        .pic {
+            display: flex;
+            width: 80%;
+            margin: 40px auto;
+            justify-content: space-between;
+        }
+
+        .pic span {
+            height: 40px;
+            width: 40px;
+            text-align: center;
+        }
+
+        .bottom {
+            width: 80%;
+            margin: 0 auto;
+
+        }
+
+        .bottom a {
+            color: rgb(84, 164, 235);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w">
+        <div class="top">
+            <div class="left "><img src="../图片/二维码.img" alt=""></div>
+            <div class="safe">扫码登陆更安全</div>
+            <div class="right"></div>
+        </div>
+        <div class="logo">
+            <img src="../图片/wangyi.png" alt="">
+        </div>
+        <form>
+            <table>
+                <tr>
+                    <td class="phone"> +98</td>
+                    <td><input type="tel" placeholder=" 请输入手机号"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="password" type="password" placeholder="  请输入密码">
+                    </td>
+                </tr>
+            </table>
+            <div class="md">
+                <div class="lleft"><input type="checkbox">自动登录</div>
+                <div class="rright">
+                    <span><a href="#">忘记密码</a></span>
+                    <span><a href="#">验证码登录</a></span>
+                </div>
+            </div>
+            <input class="login" type="button" value="登录">
+            <div class="sign"><a href="#">注册</a></div>
+        </form>
+        <div class="pic">
+            <span><img src="../图片/weixin.png" alt=""></span>
+            <span><img src="../图片/qq.png" alt=""></span>
+            <span><img src="../图片/weibo.png" alt=""></span>
+            <span><img src="../图片/baidu.png" alt=""></span>
+        </div>
+        <div class="bottom">
+            <input type="checkbox">同意
+            <a href="#">《服务条款》</a>
+            <a href="#">《隐私政策》</a><a href="#">《儿童隐私政策》</a>
+        </div>
+    </div>
+</body>
+
+</html>
