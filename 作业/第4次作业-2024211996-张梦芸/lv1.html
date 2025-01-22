@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const pigsister = {
+            name: 'pappy',
+            age: 12
+        }
+        const pigbrother = new Object({
+            name: 'geogy',
+            age: 12
+        })
+        function Pig(name, age) {
+            this.name = name
+            this.age = age
+        }
+        const pigmother = new Pig('m', 40)
+        const pigfather = new Pig('f', 42)
+        console.log(pigsister)
+        console.log(pigbrother)
+        console.log(pigmother)
+        console.log(pigfather)
+    </script>
+</body>
+
+</html>
