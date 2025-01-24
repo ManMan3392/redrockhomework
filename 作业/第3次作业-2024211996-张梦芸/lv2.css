@@ -1,14 +1,14 @@
-.picture {display: flex;
-    
-    height: 600px;
-    justify-content: center;
-    align-items: center; 
-    
+.picture {
+    text-align: center;
+    margin-top: 300px;
 }
-img:hover{
-    box-shadow: 10px 10px 10px 5px rgba(0,0,0,.2);
+
+img {
+    transition: all .5s ease;
+}
+
+img:hover {
+    box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, .2);
     margin-top: -50px;
     transform: scale(1.1);
 }
-
-
