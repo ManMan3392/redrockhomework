@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歌单广场</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/list.css">
+</head>
+
+<body>
+    <div class="w">
+        <!-- <div class="righttop"> -->
+        <div class="menu">
+            <div>
+                <a href="index.html">
+                    <img src="../picture/tubiao.png" alt="">
+                </a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li class="topborder"><a href="../html/index.html"> 推荐</a></li>
+                    <li class="topborder a"><a href="../html/list.html"> 精选</a></li>
+                    <li class="topborder"><a href="#"> 播客</a></li>
+                    <li class="topborder"><a href="#"> 漫游</a></li>
+                    <li class="topborder"><a href="#"> 关注</a></li>
+                </ul>
+            </div>
+            <div class="person">
+                <ul>
+                    <li class="topborder lovelist"><a href="../html/playlist.html"> 我喜欢的音乐 </a>
+                        <a href="../html/playlist.html" class="love"> </a>
+                    </li>
+                    <li class="topborder"><a href="#" class="atopborder"></a><a href="#" class="font"> 最近播放</a></li>
+                    <li class="topborder"><a href="#" class="atopborder"></a><a href="#" class="font"> 我的博客</a></li>
+                    <li class="topborder"><a href="#" class="atopborder"></a><a href="#" class="font"> 我的收藏</a></li>
+                    <li class="topborder"><a href="#" class="atopborder"></a><a href="#" class="font"> 下载管理</a></li>
+                    <li class="topborder"><a href="#" class="atopborder"></a><a href="#" class="font"> 本地音乐</a></li>
+                    <li class="topborder"><a href="#" class="atopborder"></a><a href="#" class="font"> 我的音乐网盘</a></li>
+                </ul>
+            </div>
+            <div class="create">
+                <div class="creater">
+                    <a href="#" class="san">创建的歌单(3)</a>
+                    <a href="#" class="createra"></a>
+                </div>
+                <ul>
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- </div> -->
+        <div class="body">
+            <div class="top">
+                <div class="topleft">
+                    <div class="topleftl">
+                        <a href="#">
+                            <div class="box"></div>
+                        </a>
+                    </div>
+                    <div class="search">
+                        <a href="../html/search.html"></a>
+                        <input type="search">
+                    </div>
+                    <div class="speak"></div>
+                </div>
+
+                <div class="topright">
+                    <div class="people">
+                        <div class="touxiang">
+                            <img src="../picture/头像.png">
+
+                        </div>
+                        <div class="unlogin">未登录</div>
+                        <div class="login">
+                            <div class="loginclose">
+                                <div class="loginclose1">X</div>
+                            </div>
+                            <div class="logintitle">扫码登录</div>
+                            <div class="ma">
+                                <img id="qrCodeImg" src="">
+                            </div>
+                        </div>
+                        <div class="name">沙滩花黑红俄罗斯</div>
+                        <div class="vip">
+                            <img src="../picture/vip.png">
+                        </div>
+
+                    </div>
+                    <div class="sets">
+                        <a href="#"></a>
+                    </div>
+                    <div class="set"><a href="#"></a></div>
+                    <div class="set"><a href="#"></a></div>
+                    <div class="set"><a href="#"></a></div>
+                    <div class="set"><a href="#"></a></div>
+                    <div class="set"><a href="#"></a></div>
+                    <div class="set"><a href="#"></a></div>
+                    <div class="set"><a href="#"></a></div>
+
+                </div>
+            </div>
+            <div class="toplist">
+                <div class="hidden">
+                    <div class="topsearchhistory">搜索历史</div>
+                    <ul class="history">
+                    </ul>
+                </div>
+                <div class="topsearch">热搜榜</div>
+                <ul class="topsearchul"></ul>
+            </div>
+            <div class="content">
+                <div class="listnav">
+                    <ul>
+                        <li><a href="#">精选</a></li>
+                        <li class="listsqure"><a href="#" class="listsqurea">歌单广场</a></li>
+                        <li class="paihang"><a href="#">排行榜</a></li>
+                        <li><a href="#">歌手</a></li>
+                        <li><a href="#">VIP</a></li>
+                    </ul>
+                </div>
+                <div class="listcontent">
+                    <div class="class">
+                        <ul>
+
+                        </ul>
+                    </div>
+                    <div class="lists"></div>
+                </div>
+            </div>
+            <div class="foot">
+                <audio id="audio" src=""></audio>
+                <div class="foot1">
+                </div>
+                <div class="footplay">
+                    <div class="footplaybutton">
+                        <div class="footplaybuttonstyle"></div>
+                        <div class="footplaybuttonlastsong"></div>
+                        <div class="footplaybuttonplay">▶</div>
+                        <div class="footplaybuttonnextsong"></div>
+                        <div class="footplaybuttonsonglyrics">词</div>
+                    </div>
+                    <div class="footplayprogress">
+                        <span class="footplaytime" id="current-time">0:00</span>
+                        <div class="footplayprogresscontainer">
+                            <div class="footplayprogresscontent"></div>
+                        </div>
+                        <span class="footplaytime" id="duration">0:00</span>
+
+                    </div>
+                </div>
+                <div class="foota">
+                    <ul>
+                        <li>极高</li>
+                        <li></li>
+                        <li></li>
+                        <li class="volume">
+                            <div class="volumeafter">
+                                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+                                <div class="volumeafternum"></div>
+                            </div>
+                        </li>
+                        <li class="playsonglistbutton"></li>
+                    </ul>
+                </div>
+                <div class="playsonglist">
+                    <div class="playsonglisttop">
+                        <div class="playsonglisttopl">播放列表</div>
+                        <div class="playsonglistnum">12</div>
+                        <div class="playsonglisttopr">
+                            <div> 清空</div>
+                            <div> 收藏全部</div>
+                        </div>
+                    </div>
+                    <div class="playsonglistplaysonglists">
+                        <ul>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footnext">
+        <div class="footnexthead">
+            <div class="footnextheadleft">
+                <div class="zhedie">
+                    <div class="jiantou"></div>
+                </div>
+                <div class="zhedie clearplay"></div>
+            </div>
+            <div class="footnextheadright">
+                <div class="footnextheadrightl">
+                    <div class="footnextheadrightljiantou"></div>
+                    <div class="footnextheadrightldes">播放器模式</div>
+                </div>
+                <div class="footnextheadrightr">
+                    <div class="set footnextheadrightrset"><a href="#"></a></div>
+                    <div class="set footnextheadrightrset set4"><a href="#"></a></div>
+                    <div class="set footnextheadrightrset"><a href="#"></a></div>
+                    <div class="set footnextheadrightrset set4"><a href="#"></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="footnextmid">
+            <div class="footnextmidl">
+                <div class="footnextmidlt">
+                    <img src="../picture/pointer1.jpg">
+                </div>
+                <div class="footnextmidlb">
+                    <img src="../picture/al.png">
+                    <div class="rotate ani">
+                        <img src="">
+                    </div>
+                </div>
+
+            </div>
+            <div class="footnextmidr">
+                <div class="footnextmidrname">跳楼机</div>
+                <div class="footnextmidrdes">
+                    <div class="footnextmidrfrom footnextmidral">专辑：跳楼机</div>
+                    <div class="footnextmidrfrom footnextmidrsinger">歌手：LBI利比</div>
+                    <div class="footnextmidrfrom">来源：未知</div>
+                </div>
+                <div class="footnextmidrmis">
+                    <div class="footnextmidrmid1">歌词</div>
+                    <div class="footnextmidrmid2">百科</div>
+                    <div class="footnextmidrmid3">相似推荐</div>
+                </div>
+                <div class="footnextmidrlyrics">
+                    <div class="footnextmidrlyricscontainer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footplayprogress footnextbottompro">
+            <div class="footplayprogresscontainer footnextbottomcontainer">
+                <div class="footplayprogresscontent footnextbottomcontent"></div>
+            </div>
+        </div>
+        <div class="footnextbottom">
+            <div class="footdesbottom footnextbottomdes">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li>1w+</li>
+                    <li></li>
+                    <li>...</li>
+                    <li class="footnextbottomdesli"><span class="footplaytime" id="footnextcurrent-time">0:00</span>
+                    </li>
+                    <li class="footnextbottomdesli1"><span>/</span></li>
+                    <li class="footnextbottomdeslid"><span class="footplaytime" id="footnextduration">0:00</span></li>
+                </ul>
+
+            </div>
+            <div class="footplaybutton">
+                <div class="footplaybuttonstyle"></div>
+                <div class="footplaybuttonlastsong footnextlastsong"></div>
+                <div class="footplaybuttonplay footnextbuttonplay">▶</div>
+                <div class="footplaybuttonnextsong footnextnextsong"></div>
+                <div class="footplaybuttonsonglyrics">词</div>
+            </div>
+            <div class="foota footnextbottoma">
+                <ul>
+                    <li>极高</li>
+                    <li></li>
+                    <li></li>
+                    <li class="volume">
+                        <div class="volumeafter">
+                            <input type="range" id="volumeSliders" min="0" max="1" step="0.01" value="0.5">
+                            <div class="volumeafternum"></div>
+                        </div>
+                    </li>
+                    <li class="footnextbutton"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../js/style.js"></script>
+    <script src="../js/list.js"></script>
+</body>
+
+</html>
