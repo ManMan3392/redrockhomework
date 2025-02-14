@@ -20,11 +20,16 @@ async function SearchInput(input) {
         // localStorage.setItem(`playcount${i}`, it.playCount)
 
         // localStorage.setItem(`searchsongsnum`, r.result.song.songs.length)
+        const count = it.playCount > 10000
+            ? (() => {
+                const result = (it.playCount / 10000).toFixed(1)
+                return result.endsWith('.0') ? `${parseInt(result)}万` : `${result}万`;
+            })() : it.playCount
         return ` <li class="searchlistsonglistli" data-id="${it.id}">
         <a href="playlist.html">
                                     <div class="searchlistsonglistlitop"
                                         style="background-image: url('${it.coverImgUrl}'); background-size: cover; background-position: center;">
-                                        <div class="searchlistsonglistlitopp">${it.playCount}</div>
+                                        <div class="searchlistsonglistlitopp"> ${count}</div>
                                         <div class="searchlistsonglistlitopb">
                                             <div class="sanjiaoxing"></div>
                                         </div>
