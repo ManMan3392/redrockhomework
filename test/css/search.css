@@ -377,10 +377,13 @@
 }
 
 .songer {
-    height: 70px;
     width: 100%;
     margin-top: 160px;
+    width: 100%;
+    overflow: hidden;
 }
+
+
 
 .songerl {
     float: left;
@@ -389,6 +392,7 @@
     height: 70px;
     width: 540px;
     border-radius: 13px;
+    margin-bottom: 20px;
 }
 
 .songerl:hover {

@@ -209,13 +209,14 @@ function updateHistoryDisplay() {
         li.textContent = item
         historyList.appendChild(li)
         console.log(li)
-    });
+    })
 
     const topsearchhistory = document.querySelector('.hidden')
     topsearchhistory.style.display = 'block'
 }
 
 async function SearchInput(input) {
+    localStorage.setItem(`search`, input)
     let r = await http({
         method: 'get',
         url: 'http://localhost:3000/search',
@@ -293,7 +294,8 @@ async function Search() {
     searchlist.addEventListener('click', async function Recommend(event) {
         if (event.target.closest('li')) {
             const searchlistli = event.target.closest('li')
-            SearchInput(searchlistli.dataset.name)
+            // SearchInput(searchlistli.dataset.name)
+            localStorage.setItem(`search`, searchlistli.dataset.name)
         }
     })
 
@@ -342,7 +344,8 @@ async function Search() {
         }, 300)
         const searchbutton = document.querySelector('.search a')
         searchbutton.addEventListener('click', () => {
-            SearchInput(search.value)
+            // SearchInput(search.value)
+            localStorage.setItem('search', search.value)
             const searchTerm = search.value.trim()
             if (searchTerm) {
                 const history = getSearchHistory()
