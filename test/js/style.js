@@ -546,7 +546,7 @@ async function SongPlay(id, authorname, sname, pic, al) {
             const regex = /\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
             const match = line.match(regex);
             if (match) {
-                //match[1]表示第一个捕获组匹配的内容，即分钟数，转换为整数便于后续使用时间
+                //用正则表达式分离数据，match[1]表示第一个捕获组匹配的内容，即分钟数，转换为整数便于后续使用时间
                 const minutes = parseInt(match[1]);
                 const seconds = parseInt(match[2]);
                 const milliseconds = parseInt(match[3]);

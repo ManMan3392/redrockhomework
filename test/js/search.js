@@ -62,7 +62,7 @@ async function SearchInput(input) {
         // localStorage.setItem(`nameid${i}`, it.name)
         // localStorage.setItem(`authorid${i}`, authorname)
         // localStorage.setItem(`picid${i}`, it.al.picUrl)
-        // localStorage.setItem(`songid${i}`, it.id)
+        localStorage.setItem(`songid${i}`, it.id)
 
 
 
