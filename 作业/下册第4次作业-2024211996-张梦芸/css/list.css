@@ -1,0 +1,317 @@
+.listnav {
+    height: 41px;
+}
+
+.listnav li {
+    float: left;
+    padding: 10px;
+    font-weight: 400;
+    color: rgb(184, 182, 182);
+}
+
+.listsqurea {
+    position: relative;
+    color: black;
+    font-weight: 600;
+}
+
+.listsqure {
+    position: relative;
+}
+
+.listsqure::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 36px;
+    height: 3px;
+    width: 15px;
+    border-radius: 1.5px;
+    background-color: red;
+}
+
+.paihangact {
+    position: relative;
+}
+
+.paihangact::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 26px;
+    height: 3px;
+    width: 15px;
+    border-radius: 1.5px;
+    background-color: red;
+}
+
+.class {
+    height: 50px;
+    margin-top: 15px;
+    /* background-color: pink; */
+}
+
+.class ul li {
+    float: left;
+    height: 30px;
+    margin-right: 10px;
+    padding: 10px 15px;
+    line-height: 8px;
+    font-size: 14px;
+    border: 1px solid rgb(227, 225, 225);
+    border-radius: 15px;
+    /* background-color: aqua; */
+}
+
+.class ul li a {
+    font-size: 14px;
+}
+
+
+.class .classlistactive {
+    background-color: rgba(247, 217, 217, .6);
+    border-color: rgb(249, 195, 195);
+}
+
+.class .classlistactive a {
+    color: rgb(249, 62, 93);
+}
+
+.class ul li:hover {
+    background-color: rgba(247, 217, 217, .6);
+    border-color: rgb(249, 195, 195);
+    color: rgb(249, 62, 93);
+}
+
+.class ul li:hover a {
+    color: rgb(249, 62, 93);
+}
+
+.classli {
+    position: relative;
+    width: 100px;
+}
+
+.classli::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    width: 7.5px;
+    height: 7.5px;
+    border-right: 2px solid rgb(184, 182, 182);
+    border-bottom: 2px solid rgb(184, 182, 182);
+    transform: rotate(45deg);
+}
+
+.classli:hover::after {
+    border-right: 2px solid rgb(249, 62, 93);
+    border-bottom: 2px solid rgb(249, 62, 93);
+}
+
+.lists {
+    margin-top: 20px;
+}
+
+.recommendli {
+    position: relative;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    height: 264px;
+    width: 212px;
+    border-radius: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: pink;
+}
+
+.recommendlitop {
+    position: relative;
+    height: 213px;
+    width: 100%;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+    background-color: pink;
+}
+
+.recommendlitopp {
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    height: 10px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: icomoon;
+}
+
+.recommendlitopb {
+    position: absolute;
+    bottom: 8px;
+    left: 11px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.recommendlibottom {
+    position: absolute;
+    bottom: 0px;
+    height: 51px;
+    width: 212px;
+    color: #fff;
+    font-size: 14px;
+    padding: 5px 10px;
+    line-height: 15px;
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+    background-color: aqua;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+    transition: all .3s;
+}
+
+.recommendli:hover .recommendlibottom {
+    box-shadow: 0 -40px 15px 15px rgba(250, 250, 250, 0.3);
+    height: 150px;
+}
+
+/* .recommendli:hover .recommendlitop {
+box-shadow: 0 -10px 28px 28px rgba(145, 144, 144, 0.9)
+} */
+.recommendli:hover .recommendlibottomtopnone {
+    display: block;
+}
+
+.hover {
+    box-shadow: 20px 20px 20px;
+}
+
+.recommendli:hover .recommendlibottomplaybutton {
+    opacity: 1;
+}
+
+/* .recommendli:hover .recommendlitop {
+    box-shadow: 0 -10px 28px 28px rgba(145, 144, 144, 0.9)
+} */
+.recommendlibottomplaybutton {
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    border-radius: 20px;
+    bottom: 8px;
+    right: 11px;
+    z-index: 2;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #fff;
+    opacity: 0;
+    transition: all .5s;
+}
+
+.sanjiaoxing {
+    position: absolute;
+    right: 13px;
+    bottom: 11px;
+    width: 0;
+    height: 0;
+    border-top: 12px solid rgb(9, 9, 9);
+    border-left: 12px solid transparent;
+    border-radius: 4px;
+    border-bottom: 0 solid;
+    border-right: 0 solid;
+    transform: rotate(45deg);
+}
+
+.recommendlibottomtop {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #fff;
+    font-size: 14px;
+    height: 38px;
+    margin-bottom: 23px;
+    line-height: 1.4;
+}
+
+.recommendlibottomtopnone {
+    background: linear-gradient(to top, rgba(251, 195, 204, .9), rgba(250, 250, 250, .3));
+    height: 36px;
+    width: 212px;
+    position: absolute;
+    top: -36px;
+    z-index: 300;
+    right: 0;
+    box-shadow: 0px -5px 8px rgba(250, 250, 7250, 0.3);
+    display: none;
+}
+
+.recommendlibottom li {
+    margin-left: 3px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bangdan {
+    position: relative;
+    float: left;
+    height: 180px;
+    width: 180px;
+    border-radius: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: pink;
+}
+
+.bangdan::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 180px;
+    width: 180px;
+    border-radius: 10px;
+    background-color: rgba(162, 161, 161, .3);
+    display: none;
+}
+
+.bangdanbox {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    bottom: 8px;
+    right: 11px;
+    z-index: 2;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #fff;
+    opacity: 0;
+    transition: all .5s;
+}
+
+.bangdanbox::after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    bottom: 12px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid rgb(22, 21, 21);
+    border-left: 15px solid transparent;
+    border-radius: 4px;
+    border-bottom: 0 solid;
+    border-right: 0 solid;
+    z-index: 3;
+    transform: rotate(45deg);
+}
+
+.bangdan:hover::after {
+    display: block;
+}
+
+.bangdan:hover .bangdanbox {
+    opacity: 1;
+}

@@ -1,0 +1,795 @@
+.topleft .search,
+.topleft .speak {
+    background: transparent;
+    border: 1px solid rgb(223, 221, 221);
+}
+
+.color {
+    position: fixed;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.top {
+    border-bottom: none;
+}
+
+.tophidden {
+    position: fixed;
+    top: 70px;
+    z-index: 100;
+    left: 205px;
+    width: 100%;
+    height: 120px;
+    padding-left: 38px;
+    padding-top: 10px;
+    opacity: 0;
+    transition: all .5s;
+    background-color: #f5f7fa;
+}
+
+.tophidden h2 {
+    color: rgb(46, 45, 45);
+    font-size: 21px;
+}
+
+.tophidden .topa {
+    margin-left: 32px;
+    margin-bottom: 20px;
+}
+
+.playlistdescriptionrighta .top {
+    left: 6px;
+    width: 40px;
+    padding-left: 8px;
+}
+
+.playlistdescription {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 210px;
+    width: 100%;
+    /* background-color: pink; */
+}
+
+.playlistdescriptionleft {
+    position: relative;
+    height: 195px;
+    min-width: 195px;
+    border-radius: 19px;
+    margin-right: 33px;
+    overflow: hidden;
+    /* background-color: rgb(153, 241, 145); */
+}
+
+.recommendlitopp {
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    height: 10px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: icomoon;
+}
+
+.playlistdescriptionleftshadow {
+    position: absolute;
+    top: -8px;
+    left: 13px;
+    border-radius: 10px;
+    height: 30px;
+    width: 170px;
+    background-color: rgba(184, 184, 186, 0.3);
+
+}
+
+.playlistdescriptionright {
+    position: relative;
+    width: 937px;
+    height: 190px;
+    /* background-color: rgb(216, 243, 189); */
+
+}
+
+.playlistdescriptionrightname {
+    font-size: 24px;
+    font-weight: 800;
+    color: rgb(56, 55, 55);
+    margin-bottom: 10px;
+}
+
+.playlistdescriptionrightdes {
+    font-size: 13px;
+    font-weight: 500;
+    height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgb(104, 102, 102);
+    margin-bottom: 10px;
+}
+
+.playlistdescriptionrightauthor {
+    border-radius: 10px;
+    height: 30px;
+    /* background-color: rgba(46, 236, 29, 0.3); */
+}
+
+.playlistdescriptionrightauthorimg {
+    float: left;
+    height: 30px;
+    width: 30px;
+    margin-right: 2px;
+    border-radius: 15px;
+    overflow: hidden;
+    /* background-color: rgb(147, 196, 240); */
+}
+
+.playlistdescriptionrightauthorname,
+.playlistdescriptionrightauthortip,
+.playlistdescriptionrightboxs {
+    float: left;
+    height: 30px;
+    line-height: 17px;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 5px;
+    color: rgb(104, 102, 102);
+}
+
+.playlistdescriptionrightauthortip div {
+    float: left;
+}
+
+.playlistdescriptionrightauthortip div a {
+    float: left;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    color: rgb(110, 110, 249);
+}
+
+.playlistdescriptionrighta {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    height: 40px;
+    /* background-color: rgb(175, 230, 212); */
+}
+
+.playlistdescriptionrightaplay,
+.playlistdescriptionrightaadd,
+.playlistdescriptionrightaload,
+.playlistdescriptionrightamore {
+    float: left;
+    height: 40px;
+    font-family: icomoon;
+    color: rgb(47, 47, 48);
+    line-height: 10px;
+    padding: 15px;
+    margin-right: 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    background-color: rgba(229, 230, 230, .3);
+}
+
+.playlistdescriptionrightamore {
+    position: relative;
+    width: 40px;
+}
+
+.playlistdescriptionrightamore div {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 20px;
+}
+
+.playlistdescriptionrightaplay:hover {
+    background-color: rgb(229, 111, 84);
+}
+
+.playlistdescriptionrightaadd:hover {
+    background-color: rgb(146, 148, 148);
+}
+
+.playlistdescriptionrightaload:hover {
+    background-color: rgb(146, 148, 148);
+}
+
+.playlistdescriptionrightamore:hover {
+    background-color: rgb(146, 148, 148);
+}
+
+.playlistdescriptionrightaplay {
+    position: relative;
+    width: 95px;
+    text-align: right;
+    color: white;
+    cursor: pointer;
+    background-color: rgb(254, 78, 78);
+}
+
+.playlistdescriptionrightaplay::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 12px;
+    width: 0;
+    height: 0;
+    border-top: 11px solid white;
+    border-left: 11px solid transparent;
+    border-radius: 2px;
+    border-bottom: 0 solid;
+    border-right: 0 solid;
+    transform: rotate(45deg);
+}
+
+.playlistnav {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+    height: 39px;
+    width: 100%;
+    background: linear-gradient();
+    /* background-color: rgb(228, 255, 192); */
+}
+
+.playlistnavright {
+    height: 28px;
+    width: 70px;
+    border-radius: 14px;
+    font-family: icomoon;
+    font-size: 14px;
+    color: rgb(164, 165, 167);
+    text-align: center;
+    padding-top: 5px;
+    margin-top: 6px;
+    margin-right: 30px;
+    background-color: #fffdfd;
+}
+
+.playlistnavsong,
+.playlistnavcomment,
+.playlistnavadd {
+    float: left;
+    margin-right: 25px;
+    margin-top: 8px;
+    color: rgb(138, 138, 138);
+    cursor: pointer;
+}
+
+.playlistnavcomment {
+    position: absolute;
+    top: 1px;
+    left: 56px;
+}
+
+.playlistnavadd {
+    position: absolute;
+    top: 1px;
+    left: 115px;
+}
+
+.playlistnavsongnum,
+.playlistnavaddnum,
+.playlistnavcommentnum {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgb(138, 138, 138);
+}
+
+.click {
+    color: black;
+    font-weight: 700;
+}
+
+.playlistnavsongnum {
+    top: 5px;
+    left: 33px;
+}
+
+.playlistnavaddnum {
+    top: 5px;
+    left: 165px;
+}
+
+.playlistnavcommentnum {
+    top: 4px;
+    left: 85px;
+}
+
+.playlistnavsongafter {
+    position: absolute;
+    bottom: 4px;
+    left: 8px;
+    height: 3px;
+    width: 15px;
+    border-radius: 1.5px;
+    background-color: transparent;
+}
+
+.navcommentafter {
+    position: absolute;
+    bottom: 4px;
+    left: 64px;
+    height: 3px;
+    width: 15px;
+    border-radius: 1.5px;
+    background-color: transparent;
+}
+
+.playlistnavcommentafter {
+    background-color: red;
+}
+
+[class*="playlisttop"] {
+    float: left;
+    font-size: 14px;
+    border-radius: 8px;
+    height: 29px;
+    cursor: pointer;
+    color: rgb(138, 137, 137);
+}
+
+.playlisttop {
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 25px;
+    height: 39px;
+    width: 100%;
+    border-bottom: 1px solid rgba(229, 230, 230, .3);
+    /* background-color: rgb(170, 237, 81); */
+}
+
+.playlisttopid {
+    padding: 6px;
+    width: 35px;
+}
+
+.playlisttop2 {
+    width: 50%;
+}
+
+.playlisttop2 div,
+.playlisttop3 div,
+.playlisttop5 div {
+    float: left;
+    padding: 5px;
+}
+
+.playlisttop2morenpaixu {
+    float: left;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.playlisttop2morenpaixu img {
+    height: 20px;
+}
+
+.playlisttop2:hover {
+    background-color: rgba(240, 237, 237, 0.846);
+}
+
+.playlisttop2:hover .playlisttop2morenpaixu {
+    display: block;
+}
+
+.playlisttop3 {
+    width: 33%;
+}
+
+.playlisttop3:hover {
+    background-color: rgba(240, 237, 237, 0.846);
+}
+
+.playlisttop3:hover .playlisttop2morenpaixu {
+    display: block;
+}
+
+.playlisttop4 {
+    width: 60px;
+    margin-top: 5px;
+}
+
+.playlisttop5 {
+    width: 80px;
+}
+
+.playlisttop5:hover {
+    background-color: rgba(240, 237, 237, 0.846);
+}
+
+.playlisttop5:hover .playlisttop2morenpaixu {
+    display: block;
+}
+
+
+.playlistlist {
+    width: 100%;
+    margin-top: 48px;
+}
+
+.playlistlist li {
+    width: 100%;
+    height: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    /* background-color: aqua; */
+}
+
+.playlistlist li:hover {
+    box-shadow: 5px 5px 5px rgba(161, 160, 160, .3);
+}
+
+[class*="cplaylistlist"] {
+    float: left;
+}
+
+.cplaylistlistid {
+    position: relative;
+    width: 35px;
+    height: 60px;
+    /* background-color: aquamarine; */
+}
+
+.playlistlistid {
+    position: absolute;
+    top: 17px;
+    left: 13px;
+    font-size: 12px;
+}
+
+.playlistlistidplay {
+    position: absolute;
+    top: 22px;
+    left: 11px;
+    width: 0;
+    height: 0;
+    border-top: 11px solid rgb(135, 131, 131);
+    border-left: 11px solid transparent;
+    border-radius: 2px;
+    border-bottom: 0 solid;
+    border-right: 0 solid;
+    transform: rotate(45deg);
+    cursor: pointer;
+    display: none;
+}
+
+.cplaylistlist2 {
+    position: relative;
+    width: 49%;
+    height: 60px;
+    /* background-color: pink; */
+}
+
+.playlistlistpic {
+    float: left;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: hidden;
+    /* background-color: bisque; */
+}
+
+.playlistlistdes {
+    margin: 10px;
+    width: 96%;
+    height: 40px;
+    /* background-color: burlywood; */
+}
+
+.playlistlistdesname {
+    font-size: 14px;
+    width: 300px;
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgb(57, 56, 56);
+}
+
+.playlistlistdesauthor {
+    font-size: 13px;
+    width: 300px;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.author {
+    float: left;
+}
+
+.playlistlist2none {
+    display: none;
+}
+
+[class*="cplaylistlist2none"] {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    color: rgb(205, 204, 204);
+    cursor: pointer;
+    font-family: icomoon;
+}
+
+.cplaylistlist2none1 {
+    right: 100px;
+}
+
+.cplaylistlist2none2 {
+    right: 70px;
+}
+
+.cplaylistlist2none3 {
+    right: 40px;
+}
+
+.cplaylistlist2none4 {
+    right: 15px;
+    top: 12px;
+}
+
+.cplaylistlistsource {
+    width: 30%;
+    margin: 20px;
+    margin-left: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    color: rgb(138, 137, 137);
+    /* background-color: #fff; */
+}
+
+.cplaylistlistsource:hover {
+    color: rgb(71, 69, 69);
+}
+
+.cplaylistlistlike {
+    width: 60px;
+    margin-top: 20px;
+    margin-left: 10px;
+    color: rgb(138, 137, 137);
+    cursor: pointer;
+    font-family: icomoon;
+}
+
+.cplaylistlistlike:hover {
+    color: rgb(71, 69, 69);
+}
+
+.cplaylistlisttime {
+    width: 80px;
+    margin-top: 20px;
+    font-size: 12px;
+    cursor: default;
+    color: rgb(138, 137, 137);
+}
+
+.playlistlist ul li:hover {
+    background-color: white;
+}
+
+.playlistlist ul li:hover .playlistlistidplay {
+    display: block;
+}
+
+.playlistlist ul li:hover .playlistlist2none {
+    display: block;
+}
+
+.playlistlist ul li:hover .playlistlistid {
+    display: none;
+}
+
+.playlistlist ul li:hover .cplaylistlist2none {
+    display: block;
+}
+
+.playlistlistdesauthor a:hover {
+    color: rgb(71, 69, 69);
+}
+
+[class*="cplaylistlist2none"]:hover {
+    color: rgb(71, 69, 69);
+}
+
+.commentinput {
+    position: sticky;
+    /*bottom: 100px; */
+    width: 100%;
+    height: 80px;
+    border: 1px solid rgba(173, 170, 170, .3);
+    border-radius: 10px;
+    background-color: rgba(128, 126, 126, 0.1);
+    overflow: hidden;
+}
+
+textarea {
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+.commentinputwrite {
+    width: 100%;
+    height: 40px;
+    padding: 20px 0 0 20px;
+    background-color: transparent;
+}
+
+.commentinputbottom {
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+}
+
+.commentinputbottom div {
+    float: left;
+    font-family: icomoon;
+    margin-right: 8px;
+    color: rgb(153, 150, 150);
+    cursor: pointer;
+}
+
+.commentinputbottom div:hover {
+    color: black;
+}
+
+.commentinputbottom button:hover {
+    color: black;
+}
+
+.commentinputbottom3 {
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+.commentinputbottom1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.enter {
+    border: none;
+    color: rgb(132, 131, 131);
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 15px;
+    border-left: 1px solid rgba(184, 183, 183, .2);
+}
+
+.commentinputbottomleft {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 10px;
+    color: rgb(172, 171, 171);
+}
+
+.hotcomment {
+    margin-top: 30px;
+}
+
+.hotcomment h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.hotcommentlist li {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px solid rgba(173, 170, 170, .3);
+
+}
+
+.hotcomment .hotcommentlist li:hover {
+    background-color: transparent;
+}
+
+
+
+.hotcommentlistl {
+    float: left;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    margin-top: 20px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.hotcommentlistm {
+    margin-top: 18px;
+    position: absolute;
+    left: 50px;
+    height: 20px;
+}
+
+.hotcommentlistmtop {
+    height: 18px;
+
+}
+
+.hotcommentlistmtopname {
+    float: left;
+    font-size: 15px;
+    color: #498df2;
+}
+
+.hotcommentlistmvip {
+    float: left;
+    margin-left: 5px;
+    height: 20px;
+    width: 70px;
+}
+
+.hotcommentlistr .hotcommentlistrjubao {
+    font-size: 15px;
+    opacity: 0;
+}
+
+.hotcomment .hotcommentlist li:hover .hotcommentlistr .hotcommentlistrjubao {
+    opacity: 1;
+}
+
+.hotcommentlistmcomment {
+    font-size: 15px;
+    margin-top: 7px;
+    margin-bottom: 8px;
+    height: 32px;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 900px;
+}
+
+.hotcommentlistbottom {
+    font-size: 11px;
+    color: rgb(163, 162, 162);
+}
+
+.hotcommentlistr {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+
+    height: 20px;
+    /* background-color: #32486a; */
+}
+
+.hotcommentlistr div {
+    float: left;
+    margin-right: 30px;
+    color: rgb(156, 155, 155);
+    font-family: icomoon;
+}
+
+.hotcommentlistr .hotcommentlistrgoodnum {
+    font-size: 11px;
+    margin-right: 5px;
+}
+
+.hotcommentlistr .hotcommentlistrcomment {
+    margin-right: 0px;
+}
+
+.hotcommentlistrcomment {
+    cursor: pointer;
+}
