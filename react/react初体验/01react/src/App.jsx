@@ -1,25 +1,35 @@
 import React from 'react';
 import { Books } from './Components/books';
+import Titles from './Components/titles';
 export class App extends React.Component {
     constructor() {
         super()
         this.state = {
-            message: "Hello World"
+            message: "Hello World",
+            title: ['流行', '新款', '精选'],
+            currenIndex: 0
         }
         this.btnClick = this.btnClick.bind(this)
     }
     btnClick() {
         this.setState({
-            message: "Hello React"
+            message: "Hello React",
+        })
+    }
+    changeindex(index) {
+        this.setState({
+            currenIndex: index
         })
     }
     render() {
-        const { message } = this.state
+        const { message, title, currenIndex } = this.state
         return (
             <div>
                 <h2> {message}</h2>
                 <button onClick={this.btnClick}></button>
                 <Books></Books>
+                <Titles title={title} changeindex={(index) => this.changeindex(index)} />
+                <h2>{title[currenIndex]}</h2>
             </div>
         )
     }
