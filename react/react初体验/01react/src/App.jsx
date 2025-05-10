@@ -1,6 +1,9 @@
 import React from 'react';
 import { Books } from './Components/books';
 import Titles from './Components/titles';
+import Input from './Components/Input';
+import themecontext from './utils/themecontext';
+import Hoc from './Components/Hoc';
 export class App extends React.Component {
     constructor() {
         super()
@@ -30,6 +33,10 @@ export class App extends React.Component {
                 <Books></Books>
                 <Titles title={title} changeindex={(index) => this.changeindex(index)} />
                 <h2>{title[currenIndex]}</h2>
+                <Input></Input>
+                <themecontext.Provider value={{ color: "red" }}>
+                    <Hoc></Hoc>
+                </themecontext.Provider>
             </div>
         )
     }

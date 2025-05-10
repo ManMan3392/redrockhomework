@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入 React 和 ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入 Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class App extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    message: "Hello World",
+                    number: 0,
+                    moivies: ["大话西游", "流浪地球", "少年派", "长城", "满江红", "独行月球"],
+                    currentindex: 0,
+                    isTrue: true
+                }
+                this.btnClick = this.btnClick.bind(this)
+                this.increment = this.increment.bind(this)
+                this.decrement = this.decrement.bind(this)
+            }
+            btnClick() {
+                this.setState({
+                    message: "Hello React"
+                })
+            }
+            increment() {
+                this.setState({
+                    number: this.state.number + 1
+                })
+            }
+            decrement() {
+                this.setState({
+                    number: this.state.number - 1
+                })
+            }
+            indexchange(index) {
+                this.setState({
+                    currentindex: index
+                })
+                console.log(index)
+            }
+            btnchange() {
+                this.setState({
+                    isTrue: !this.state.isTrue
+                })
+            }
+            render() {
+                return (
+                    <div>
+                        <h2>{this.state.message}</h2>
+                        <button onClick={this.btnClick}>修改文本</button>
+                        <ul>
+                            {this.state.moivies.map((item, index) => <li className={this.state.currentindex == index ? "active" : ""}
+                                onClick={() => this.indexchange(index)}
+                            >{item}</li>)}
+                        </ul>
+                        <div>{this.state.number}</div>
+                        <button onClick={this.increment}>+1</button>
+                        <button onClick={this.decrement}>-1</button>
+                        <h2>{this.state.isTrue ? "Hello World" : ""}</h2>
+                        <button onClick={() => this.btnchange()}>切换</button>
+                    </div>
+                )
+            }
+        }
+        const root = ReactDOM.createRoot(document.querySelector("#root"))
+        root.render(<App />)
+    </script>
+</body>
+
+</html>
