@@ -5,6 +5,7 @@ import Input from './Components/Input';
 import themecontext from './utils/themecontext';
 import Hoc from './Components/Hoc';
 import Login from './Components/Login';
+import Transition from './Components/Transition';
 export class App extends React.Component {
     constructor() {
         super()
@@ -47,6 +48,7 @@ export class App extends React.Component {
                 </themecontext.Provider>
                 <button onClick={() => this.loginIn()}>登录</button>
                 <Login />
+                <Transition />
             </div>
         )
     }
