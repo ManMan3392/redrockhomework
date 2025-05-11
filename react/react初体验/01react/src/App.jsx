@@ -4,13 +4,15 @@ import Titles from './Components/titles';
 import Input from './Components/Input';
 import themecontext from './utils/themecontext';
 import Hoc from './Components/Hoc';
+import Login from './Components/Login';
 export class App extends React.Component {
     constructor() {
         super()
         this.state = {
             message: "Hello World",
             title: ['流行', '新款', '精选'],
-            currenIndex: 0
+            currenIndex: 0,
+            islogining: false
         }
         this.btnClick = this.btnClick.bind(this)
     }
@@ -22,6 +24,12 @@ export class App extends React.Component {
     changeindex(index) {
         this.setState({
             currenIndex: index
+        })
+    }
+    loginIn() {
+        localStorage.setItem('token', '1234')
+        this.setState({
+            islogining: true
         })
     }
     render() {
@@ -37,6 +45,8 @@ export class App extends React.Component {
                 <themecontext.Provider value={{ color: "red" }}>
                     <Hoc></Hoc>
                 </themecontext.Provider>
+                <button onClick={() => this.loginIn()}>登录</button>
+                <Login />
             </div>
         )
     }
