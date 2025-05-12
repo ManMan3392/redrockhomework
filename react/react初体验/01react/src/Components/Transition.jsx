@@ -1,5 +1,5 @@
 import React, { createRef, PureComponent } from 'react'
-import { CSSTransition, SwitchTransition, TransitionGroup } from "react-transition-group"
+import { CSSTransition, SwitchTransition } from "react-transition-group"
 import '../assets/Transition.css'
 export class Transition extends PureComponent {
     constructor() {
