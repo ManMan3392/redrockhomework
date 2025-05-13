@@ -1,4 +1,4 @@
-const store = require('./index')
+import { store } from './index'
 const { addNumberAction, changeNameAction } = require('./actionCreators')
 const unsubscribe = store.subscribe(() => {
     console.log(store.getState())

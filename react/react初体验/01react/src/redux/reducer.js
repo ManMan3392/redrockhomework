@@ -1,4 +1,4 @@
-const { ADD_NUMBER, CHANGE_NAME } = require('./constant')
+import { ADD_NUMBER, CHANGE_NAME } from './constant'
 const initialState = {
     name: 'why',
     counter: 100
@@ -9,6 +9,9 @@ function reducer(state = initialState, action) {
             return { ...state, name: action.name }
         case ADD_NUMBER:
             return { ...state, counter: state.counter + action.num }
+        default:
+            return state
     }
 }
-module.exports = reducer
+
+export default reducer

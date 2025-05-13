@@ -7,6 +7,7 @@ import Hoc from './Components/Hoc';
 import Login from './Components/Login';
 import Transition from './Components/Transition';
 import Style from './Components/Style';
+import Reactredux from './Components/Reactredux';
 export class App extends React.Component {
     constructor() {
         super()
@@ -51,6 +52,7 @@ export class App extends React.Component {
                 <Login />
                 <Transition />
                 <Style />
+                <Reactredux />
             </div>
         )
     }
