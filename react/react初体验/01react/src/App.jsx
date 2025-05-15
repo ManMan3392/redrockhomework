@@ -8,7 +8,9 @@ import Login from './Components/Login';
 import Transition from './Components/Transition';
 import Style from './Components/Style';
 import Reactredux from './Components/Reactredux';
-export class App extends React.Component {
+import EXRouter from './Components/EXRouter';
+import Counter from './Pages/Counter';
+class App extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -53,7 +55,10 @@ export class App extends React.Component {
                 <Transition />
                 <Style />
                 <Reactredux />
+                <EXRouter />
+                <Counter />
             </div>
         )
     }
 }
+export default App
