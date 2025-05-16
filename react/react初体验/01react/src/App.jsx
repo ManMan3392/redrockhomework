@@ -10,6 +10,9 @@ import Style from './Components/Style';
 import Reactredux from './Components/Reactredux';
 import EXRouter from './Components/EXRouter';
 import Counter from './Pages/Counter';
+import UseContext from './Pages/UseContext';
+import UseReducer from './Pages/UseReducer';
+import UseCallback from './Pages/UseCallback';
 class App extends React.Component {
     constructor() {
         super()
@@ -57,6 +60,9 @@ class App extends React.Component {
                 <Reactredux />
                 <EXRouter />
                 <Counter />
+                <UseContext />
+                <UseReducer />
+                <UseCallback />
             </div>
         )
     }
