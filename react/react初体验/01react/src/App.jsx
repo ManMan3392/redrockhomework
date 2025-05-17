@@ -13,6 +13,7 @@ import Counter from './Pages/Counter';
 import UseContext from './Pages/UseContext';
 import UseReducer from './Pages/UseReducer';
 import UseCallback from './Pages/UseCallback';
+import Useselector from './Pages/Useselector';
 class App extends React.Component {
     constructor() {
         super()
@@ -63,6 +64,7 @@ class App extends React.Component {
                 <UseContext />
                 <UseReducer />
                 <UseCallback />
+                <Useselector />
             </div>
         )
     }

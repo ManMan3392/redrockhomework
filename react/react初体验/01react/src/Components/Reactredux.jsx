@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { addNumberAction } from '../redux/actionCreators'
+import { changeNum } from '../store/features/counter'
 
 class Reactredux extends PureComponent {
     caclnumber(num) {
@@ -12,7 +12,7 @@ class Reactredux extends PureComponent {
         const { counter } = this.props
         return (
             <div>Reactredux
-                <h2>{counter}</h2>
+                <h2>{counter.count}</h2>
                 <button onClick={() => this.caclnumber(+1)}>+1</button>
                 <button onClick={() => this.caclnumber(-1)}>-1</button>
 
@@ -28,6 +28,6 @@ const mapStateToProps = (state) => ({
     counter: state.counter
 })
 const mapDispatchToProps = (dispatch) => ({
-    addNumberAction: (num) => dispatch(addNumberAction(num))
+    addNumberAction: (num) => dispatch(changeNum(num))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Reactredux)
