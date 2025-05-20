@@ -1,29 +1,48 @@
-import { getHomeGoodPriceData } from "@/services";
+import { getHomeGoodPriceData, getHomeHighScoreData, getHomeDiscountData, getHomeHotRecommend } from "@/services";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchHomeDataAction = createAsyncThunk('fetchdata', async () => {
-    const res = await getHomeGoodPriceData()
-    return res
+export const fetchHomeDataAction = createAsyncThunk('fetchdata', (payload, { dispatch }) => {
+    getHomeGoodPriceData().then(res => {
+        dispatch(changeGoodPriceInfoAction(res))
+    })
+    getHomeHighScoreData().then(res => {
+        dispatch(changeHighScoreInfoAction(res))
+    })
+    getHomeDiscountData().then(res => {
+        dispatch(changeDiscountInfoAction(res))
+    })
+    getHomeHotRecommend().then(res => {
+        dispatch(changeHotRecommendInfoAction(res))
+    })
 })
 
 const homeSlice = createSlice({
     name: 'home',
     initialState: {
-        goodPriceInfo: {}
+        goodPriceInfo: {},
+        highScoreInfo: {},
+        discountInfo: {},
+        hotrecommendInfo: {}
     },
     reducers: {
         changeGoodPriceInfoAction(state, { payload }) {
             state.goodPriceInfo = payload
+        },
+        changeHighScoreInfoAction(state, { payload }) {
+            state.highScoreInfo = payload
+        },
+        changeDiscountInfoAction(state, { payload }) {
+            state.discountInfo = payload
+        },
+        changeHotRecommendInfoAction(state, { payload }) {
+            state.hotrecommendInfo = payload
         }
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchHomeDataAction.fulfilled, (state, { payload }) => {
-                state.goodPriceInfo = payload
-                state.isLoading = false
-            })
     }
 })
 
-export const { changeGoodPriceInfoAction } = homeSlice.actions
+export const {
+    changeGoodPriceInfoAction,
+    changeHighScoreInfoAction,
+    changeDiscountInfoAction,
+    changeHotRecommendInfoAction } = homeSlice.actions
 export default homeSlice.reducer
