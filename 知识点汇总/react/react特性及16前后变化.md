@@ -32,7 +32,7 @@ React 渲染流程可以拆成**三个核心部分**：
 2. Reconciler（协调器）:构建 Fiber 树，执行组件逻辑，生成 effectList（变更列表）
 3. Renderer（渲染器）:把变更应用到真实平台（DOM、原生、Canvas...）
 #### 现在我们来看看**渲染流程**吧！
-1. Render Phase（协调阶段）（使用Diff算法的地方）
+1. **Render Phase（协调阶段）（使用Diff算法的地方）**
    React 每次更新时，会用 新的 VDOM（虚拟 DOM）树 去对比 旧的 Fiber Tree，以确定要执行的更新操作。这个过程就叫 Reconciliation（协调），它的核心就是 Diff 算法。
    流程如下：
    1. Scheduler 安排更新任务（setState、props变更等）入队
@@ -41,8 +41,9 @@ React 渲染流程可以拆成**三个核心部分**：
    4. 比较 old Fiber（current） 和 新 VDOM（next）
    5. 收集变更信息（effect）
    6. 构建完成后，等待进入 commit 阶段
+   
    注意哦：这个阶段是**可中断的**，Fiber 架构支持可中断的协调过程，但实际是否中断取决于是否启用了并发模式（如 createRoot() 进入 Concurrent Mode）。渲染任务不会阻塞主线程，支持暂停、恢复、重试。**支持优先级**，重要任务先执行（例如：用户输入 > 动画 > 异步数据加载），如果任务超时或优先级高，会抢占当前任务，提高响应性，**不操作 DOM**，只是操作虚拟 DOM。
-2. Commit Phase（提交阶段）
+2. **Commit Phase（提交阶段）**
    把收集到的 effect 执行到真实 DOM 中（插入/更新/删除 DOM 元素）。
    流程如下：
    1. Before Mutation
@@ -50,13 +51,16 @@ React 渲染流程可以拆成**三个核心部分**：
    2. Mutation
    - 执行 DOM 操作（插入/更新/删除）
       提交新的 workInProgress 树替换为 current 树
-   1. Layout
+   3. Layout
    - 执行副作用（如 useLayoutEffect、componentDidMount）
+  
   特点：
    1. 不可中断
    2. 快速完成所有 DOM 更新
    3. 最后刷新画面，触发浏览器绘制
+   
 为啥要**两棵树**捏？只保存一个虚拟DOM不是更节约吗？
+因为两棵树可以——
 1. 构建期间不中断页面展示；
 2. 可以打断/恢复更新；
 3. 有“回滚”空间。
