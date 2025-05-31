@@ -314,7 +314,7 @@ const Parent = () => {
   return (
     <div>
       <Child ref={childRef} />
-      <button onClick={handleClick}>调用子组件方法</button>
+      <button onClick={handleClick}>调用子组件方法</button>V
     </div>
   );
 };
