@@ -28,44 +28,51 @@ Router中包含了对路径改变的监听，并且会将相应的路径传递�
 - BrowserRouter使用history模式。
 - HashRouter使用hash模式。
 ### 路由映射配置和跳转
-Routes：包裹所有的Route，在其中匹配一个路由。
-Link和NavLink：
-- 通常路径的跳转是使用Link组件，最终会被渲染成a元素；
-- NavLink是在Link基础之上增加了一些样式属性;
-- to属性：Link中最重要的属性，用于设置跳转到的路径；
+- Routes：
+  
+  包裹所有的Route，在其中匹配一个路由。
+- Link和NavLink：
+  
+    - 通常路径的跳转是使用Link组件，最终会被渲染成a元素；
+    - NavLink是在Link基础之上增加了一些样式属性;
+    - to属性：Link中最重要的属性，用于设置跳转到的路径；
 
-    ```jsx
-    <div className="nav">Add commentMore actions
-                                <Link to={'/home'}>首页</Link>
-                                <Link to={`/about/${id}`}>关于</Link>
+        ```jsx
+        <div className="nav">Add commentMore actions
+                                    <Link to={'/home'}>首页</Link>
+                                    <Link to={`/about/${id}`}>关于</Link>
+
+                                </div>
 
                             </div>
-
-                        </div>
-                        <div className="content">
-                            <Routes>
-                                <Route path='/' element={<Navigate to="/home" />} />
-                                <Route path='/home' element={<Home />} >
-                                //子路由嵌套
-                                    <Route path='/home' element={<Navigate to="/home/homerecommed" />}></Route>
-                                    <Route path='/home/homeindex' element={<Homeindex />}></Route>
-                                    <Route path='/home/homerecommed' element={<HomeREcommend />}></Route>
-                                </Route>
-                                <Route path='/about/:id' element={<About />} />
-                                <Route path='*' element={<NotFound />}></Route>
-                            </Routes>
-                        </div>
-    ```
-- Navigate导航：Navigate用于路由的重定向，当这个组件出现时，就会执行跳转到对应的to路径中
+                            <div className="content">
+                                <Routes>
+                                    <Route path='/' element={<Navigate to="/home" />} />
+                                    <Route path='/home' element={<Home />} >
+                                    //子路由嵌套
+                                        <Route path='/home' element={<Navigate to="/home/homerecommed" />}></Route>
+                                        <Route path='/home/homeindex' element={<Homeindex />}></Route>
+                                        <Route path='/home/homerecommed' element={<HomeREcommend />}></Route>
+                                    </Route>
+                                    <Route path='/about/:id' element={<About />} />
+                                    <Route path='*' element={<NotFound />}></Route>
+                                </Routes>
+                            </div>
+        ```
+- Navigate导航：
+  
+  Navigate用于路由的重定向，当这个组件出现时，就会执行跳转到对应的to路径中
     ```jsx
     <Route path="/" element={<Navigate to="/home"/>}></Route>
     ```
-- Not Found页面配置
+- Not Found页面配置:
+- 
   如果用户随意输入一个地址，该地址无法匹配，那么在路由匹配的位置将什么内容都不显示。
   ```jsx
   <Route path='*' element={<NotFound/>}/>
   ```
-- 路由的嵌套
+- 路由的嵌套:
+  
   **配置文件的写法**
   ```jsx
   path: '/home',Add commentMore actions
@@ -78,16 +85,19 @@ Link和NavLink：
   ```
   **普通写法**
   见上注释处
-- 手动路由的跳转
+- 手动路由的跳转:
+  
   如果我们希望进行代码跳转，需要通过useNavigate的Hook获取到navigate对象进行操作
-- 路由参数传递
+- 路由参数传递:
+  
   1. 动态路由
     将path在Route匹配时写成/detail/:id，那么 /detail/abc、/detail/123都可以匹配到该Route，并且进行显示。
   2. search传递参数
     ```jsx
     <Link to="user?name=zmy&age=18">用户信息</Link>
     ```
-- 路由的配置文件
+- 路由的配置文件:
+  
     将所有的路由配置放到一个地方进行集中管理。
     ```jsx
     import { Navigate } from 'react-router-dom'Add commentMore actions
