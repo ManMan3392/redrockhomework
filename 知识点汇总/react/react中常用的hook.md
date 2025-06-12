@@ -70,11 +70,11 @@ const UseCallback = memo(() => {
 
 export default UseCallback
 ```
-只有在count改变时才会传入新定义的函数，渲染子组件。
+只有在num改变时才会传入新定义的函数，渲染子组件。
 ##### 闭包陷阱：
-useCallback在此处其实就构成了一个闭包，如果不传入count的话，相当于一直使用的第一次定义的函数，该函数‘记住’的count值为第一次的count值，所以页面count一直不会改变
+useCallback在此处其实就构成了一个闭包，如果不传入num的话，相当于一直使用的第一次定义的函数，该函数‘记住’的num值为第一次的num值，所以页面num一直不会改变
 ##### 进一步优化：
-以上案例里虽然做到了基本的父组件其他地方改变不引起子组件重新渲染，但其实当点击父组件按钮改变count时仍会引起使用新函数，导致子组件随之重新渲染，理论上这种情况子组件无需重新渲染的。
+以上案例里虽然做到了基本的父组件其他地方改变不引起子组件重新渲染，但其实当点击父组件按钮改变num时仍会引起使用新函数，导致子组件随之重新渲染，callback的优化目的是尽量不重新构建函数，所以我们可以使用useRef，由于是引用数据，改变num数值时地址未改变，所以不需要设置依赖，函数‘记住’的值是useref的地址，打破了闭包陷阱，同时由于未设置依赖，即使num改变函数也不需要重新构建，对于子组件，由于函数的参数props值发生改变，会引起子组件的重新渲染，最后得到正确渲染的结果。
 ```jsx
 const UseCallback = memo(() => {
     const [num, setnum] = useState(0)
@@ -84,7 +84,7 @@ const UseCallback = memo(() => {
 
 export default UseCallback 
 ```
-使用useRef记录count值，useRef是全局数据，相当于打破了闭包，每次生成的函数都是使用的这个在改变的数据，所以不传入依赖，每次都是用第一次生成的函数也不会触发闭包陷阱。
+
 #### useMemo:
 ```jsx
 import React, { memo, useCallback } from 'react'
