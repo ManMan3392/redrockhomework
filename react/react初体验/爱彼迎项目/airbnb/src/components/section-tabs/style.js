@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 
 export const TabsWrapper = styled.div`
-display: flex;
   .item {
     box-sizing: border-box;
     flex-basis: 120px;
