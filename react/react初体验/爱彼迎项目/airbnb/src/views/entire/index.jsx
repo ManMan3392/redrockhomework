@@ -1,8 +1,14 @@
 import React, { memo } from 'react'
+import { EntireWrapper } from './style'
+import EntireFilter from './c-cpns/entire-fiter'
 
 const Entire = memo(() => {
     return (
-        <div>entire</div>
+        <EntireWrapper>
+            <EntireFilter />
+            <div className="rooms"></div>
+            <div className="pagination"></div>
+        </EntireWrapper>
     )
 })
 

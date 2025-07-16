@@ -34,7 +34,7 @@ const person: objType = {
     age: 12
 }
 
-//interface支持继承
+//interface（接口）支持继承
 interface IPerson extends objType {
     kouhao: string
 }
