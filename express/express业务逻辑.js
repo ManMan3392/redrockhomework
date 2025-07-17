@@ -18,9 +18,10 @@ const app = express()
 
 
 //express提供封装好的
-
-
 app.use(express.json())
+//解析urlencoded格式数据,extended:使用第三方库
+// app.use(express.urlencoded(extended:true))
+
 
 //客户端访问login页面，发送post请求
 app.post('/login', (req, res) => {
