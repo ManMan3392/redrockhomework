@@ -17,7 +17,7 @@ UserRouter.get('/', (ctx, next) => {
         ctx.app.emit('error', -1002, ctx)
     }
 })
-
+//可以换文件，且koa的next不接受参数
 app.on('error', (code, ctx) => {
     let message = '未知错误'
     switch (code) {
