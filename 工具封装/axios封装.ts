@@ -2,15 +2,15 @@ import axios from "axios"
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios"
 
 
-interface MyInterceptors {
+interface MyInterceptors<T> {
     requestSuccessFn?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig
     requestFailureFn?: (err: any) => any
-    responseSuccessFn?: (res: AxiosResponse) => AxiosResponse
+    responseSuccessFn?: (res: T) => T
     responseFailureFn?: (err: any) => any
 }
 type CombineRequestConfig = AxiosRequestConfig & InternalAxiosRequestConfig
-interface MyRequestConfig extends CombineRequestConfig {
-    interceptors?: MyInterceptors
+interface MyRequestConfig<T = AxiosResponse> extends CombineRequestConfig {
+    interceptors?: MyInterceptors<T>
 }
 
 
@@ -51,11 +51,11 @@ class MyRequest {
     }
 
     //封装网络请求
-    request(config: MyRequestConfig) {
+    request<T = any>(config: MyRequestConfig<T>) {
         //单次请求拦截，不能加入拦截器，会让所有实例都有拦截器
         if (config.interceptors?.requestSuccessFn) config = config.interceptors?.requestSuccessFn(config)
-        return new Promise((resolve, reject) => {
-            this.instance.request(config).then(
+        return new Promise<T>((resolve, reject) => {
+            this.instance.request<any,T>(config).then(
                 res => {
                     if (config.interceptors?.responseSuccessFn) {
                         res = config.interceptors.responseSuccessFn(res)
@@ -67,6 +67,19 @@ class MyRequest {
             })
         })
     }
+    get<T = any>(config:MyRequestConfig<T>) {
+        return this.request({...config,method:"GET"})
+    }
+    post<T = any>(config:MyRequestConfig<T>) {
+        return this.request({...config,method:"POST"})
+    }
+    delete<T = any>(config:MyRequestConfig<T>) {
+        return this.request({...config,method:"DELETE"})
+    }
+    patch<T = any>(config:MyRequestConfig<T>) {
+        return this.request({...config,method:"PATCH"})
+    }
+
 }
 
 export default MyRequest
