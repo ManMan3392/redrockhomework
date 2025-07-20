@@ -37,3 +37,7 @@ li {
 button {
   outline: none;
 }
+.wrap-v1 {
+  width: 1100px;
+  margin: 0 auto;
+}

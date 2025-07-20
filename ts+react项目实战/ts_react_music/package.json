@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.6.1",
     "@reduxjs/toolkit": "^2.8.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -12,7 +13,12 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "antd": "^5.26.5",
+    "axios": "^1.10.0",
+    "classnames": "^2.5.1",
     "craco-less": "^2.1.0-alpha.0",
+    "less": "^4.4.0",
+    "less-loader": "^12.3.0",
     "normalize.css": "^8.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -48,7 +54,7 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.0.0-alpha.9",
+    "@craco/craco": "^7.1.0",
     "@eslint/js": "^9.31.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.5",
@@ -56,6 +62,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.3.0",
     "prettier": "^3.6.2",
+    "styled-components": "^6.1.19",
     "typescript-eslint": "^8.37.0"
   }
 }

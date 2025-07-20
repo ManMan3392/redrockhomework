@@ -5,10 +5,17 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux'
+import recommendReducer from '../views/discover/c-views/recommend/store'
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    recommend: recommendReducer,
+  },
 })
+
+//拿到返回值类型的另一种方法：
+// const state = store.getState()
+// type StateType = typeof state
 
 type GetStateFnType = typeof store.getState
 //得到取仓库的函数的类型，工具底层调用getState拿到数据

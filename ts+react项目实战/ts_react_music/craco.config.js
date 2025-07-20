@@ -7,6 +7,17 @@ module.exports = {
   plugins: [
     {
       plugin: CracoLess,
+      options: {
+        lessLoadrOptions: {
+          lessOptions: {
+            modifyVars: {
+              '@primary-color': '#1677ff', // 自定义主题
+              '@border-radius-base': '4px',
+            },
+            javascriptEnabled: true,
+          },
+        },
+      },
     },
   ],
   webpack: {
