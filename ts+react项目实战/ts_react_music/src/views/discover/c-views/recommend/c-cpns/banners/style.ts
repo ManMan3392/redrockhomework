@@ -4,7 +4,7 @@ import banner_sprite from '@/assets/img/banner_sprite.png'
 
 export const BannersWrapper = styled.div`
   height: 270.37px;
-  .content {
+  .bannercontent {
     margin: 0 auto;
     position: relative;
     width: 984px;
@@ -37,21 +37,17 @@ export const BannersWrapper = styled.div`
   .banner {
     width: 730px;
     height: 285px;
-    .dots {
-      height: 8px;
-      width: 8px;
-      border-radius: 4px;
-    }
-    :where(.css-dev-only-do-not-override-13xmunt).ant-carousel
+
+    :where(.css-dev-only-do-not-override-1mld5ug).ant-carousel
       .slick-dots
       li
       button {
-      background: rgb(255, 255, 255);
+      opacity: 0.7 !important;
     }
-    :where(.css-dev-only-do-not-override-1vgsclk).ant-carousel
+    :where(.css-dev-only-do-not-override-1mld5ug).ant-carousel
       .slick-dots
       li::after {
-      background: #c20c0c;
+      background: #c20c0c !important;
     }
   }
   .download {
@@ -59,5 +55,6 @@ export const BannersWrapper = styled.div`
     width: 254px;
     height: 270.37px;
     background: url(${download});
+    box-shadow: 10px 0 20px -5px rgba(0, 0, 0, 0.5);
   }
 `

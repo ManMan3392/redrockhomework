@@ -29,9 +29,10 @@ const Banners: FC<Iprops> = () => {
       theme={{
         components: {
           Carousel: {
-            dotHeight: '8px',
-            dotWidth: '8px',
-            dotActiveWidth: '8px',
+            dotHeight: '6px',
+            dotWidth: '6px',
+            dotActiveWidth: '6px',
+            dotGap: 8,
           },
         },
       }}
@@ -42,7 +43,7 @@ const Banners: FC<Iprops> = () => {
           transition: 'background-image 2s ease-in-out',
         }}
       >
-        <div className="content">
+        <div className="bannercontent">
           <div
             className="leftarrow"
             onClick={() => {

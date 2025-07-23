@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import main_sprite from '@/assets/img/main_sprite.png'
 
 export const HeaderV1Wrapper = styled.div`
+  display: block;
   position: relative;
   padding-top: 15px;
   border-bottom: 2px solid #c10d0c;
