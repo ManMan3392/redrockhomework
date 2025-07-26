@@ -6,7 +6,6 @@ export const getSchedule = () => {
     url: '/api/schedule',
     interceptors: {
       requestSuccessFn: (config) => {
-        console.log('课表请求拦截器')
         return config
       },
     },

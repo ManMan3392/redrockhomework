@@ -1,17 +1,15 @@
 import { Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
-// import routes from './router'
-import { getSchedule } from './service/scheduleApi'
-import Schedule from './views/course'
-import NewStudents from './views/NewStudents'
+import routes from './router'
+import Course from './views/course'
 
 function App() {
   return (
     <div className="App">
       <Suspense fallback="">
         <div className="main">
-          <Schedule />
-          <NewStudents />
+          {useRoutes(routes)}
+          <Course />
         </div>
       </Suspense>
     </div>

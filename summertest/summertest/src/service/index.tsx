@@ -6,7 +6,6 @@ const request = new MyRequest({
 
   interceptors: {
     requestSuccessFn: (config) => {
-      console.log('实例请求拦截成功')
       return config
     },
     responseSuccessFn: (res) => {

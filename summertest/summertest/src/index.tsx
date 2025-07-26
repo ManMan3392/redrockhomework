@@ -1,4 +1,4 @@
-import './service/mock' // 必须在最顶部引入
+import './service/mock'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
