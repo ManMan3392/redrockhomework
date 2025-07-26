@@ -3,14 +3,13 @@ import { memo, useEffect } from 'react'
 import { CourseWrapper } from './style'
 import { useAppDispatch} from '@/store'
 import { fetchSchedule } from '@/store/scheduleSlice'
-import type { Course } from '@/service/types'
 import CourseSchedule from '../weekCourse'
 
 interface Iprops {
   children?: ReactNode
 }
 
-const Course: FC<Iprops> = () => {
+const Courses: FC<Iprops> = () => {
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fetchSchedule())
@@ -23,4 +22,4 @@ const Course: FC<Iprops> = () => {
     </CourseWrapper>
   )
 }
-export default memo(Course)
+export default memo(Courses)

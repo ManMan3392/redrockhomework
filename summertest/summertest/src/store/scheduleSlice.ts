@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getSchedule } from '../service/scheduleApi'
 import type {
   Course,
-  DateInfo,
-  ScheduleData,
   WeekCourse,
 } from '../service/types'
 

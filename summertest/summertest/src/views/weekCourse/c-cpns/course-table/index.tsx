@@ -1,8 +1,7 @@
 import type { ReactNode, FC } from 'react'
 import { memo } from 'react'
 import { TableWrapper } from './style'
-import { useAppSelector } from '@/store'
-import type { Course, DateInfo } from '@/service/types'
+import type { Course } from '@/service/types'
 
 interface Iprops {
   children?: ReactNode
@@ -27,10 +26,7 @@ const CourseTable: FC<Iprops> = ({ setSelectedCourse, filteredDates }) => {
               <td className="section-cell">{section}</td>
               {filteredDates?.map((_, dayIndex) => {
                 if (section % 2 === 1) {
-                  const courses = [
-                    ...getCoursesForDay(dayIndex, section),
-                    ...getCoursesForDay(dayIndex, section + 1),
-                  ]
+                  const courses = getCoursesForDay(dayIndex, section)
                   return (
                     <td
                       key={`day-${dayIndex}-section-${section}`}

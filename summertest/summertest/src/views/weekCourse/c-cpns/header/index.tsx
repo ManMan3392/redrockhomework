@@ -1,5 +1,5 @@
 import type { ReactNode, FC } from 'react'
-import { memo, useEffect} from 'react'
+import { memo} from 'react'
 import { HeaderWrapper } from './style'
 import { formatNumber } from '@/utils/formatnumber'
 import { useAppSelector } from '@/store'

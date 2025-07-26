@@ -25,10 +25,3 @@ export interface ScheduleResponse {
   message: string
   data: ScheduleData
 }
-
-export interface DateInfo {
-  date: string
-  day: '周一' | '周二' | '周三' | '周四' | '周五' | '周六' | '周日'
-  displayDate: string
-  weekNumber: number
-}

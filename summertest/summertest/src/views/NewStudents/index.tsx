@@ -1,7 +1,6 @@
 import type { ReactNode, FC } from 'react'
 import { memo, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { fetchSchedule } from '@/store/scheduleSlice'
 import { shallowEqual } from 'react-redux'
 import type { Course } from '@/service/types'
 import { fetchnewstudents } from '@/store/newStudents'

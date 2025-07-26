@@ -84,7 +84,6 @@ const generateScheduleData = (): ScheduleResponse => {
     message: 'success',
     data: scheduleData,
   }) as ScheduleResponse
-  console.log(data)
 
   return data
 }

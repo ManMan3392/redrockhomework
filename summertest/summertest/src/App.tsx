@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 import routes from './router'
-import Course from './views/course'
+import Courses from './views/course'
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <Suspense fallback="">
         <div className="main">
           {useRoutes(routes)}
-          <Course />
+          <Courses />
         </div>
       </Suspense>
     </div>

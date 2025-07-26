@@ -9,7 +9,6 @@ interface Iprops {
 }
 const DateHeader: FC<Iprops> = (props) => {
   const { filteredDates } = props;
-  // Ensure filteredDates is always an array
   const safeDates = Array.isArray(filteredDates) ? filteredDates : [];
 
   return (
