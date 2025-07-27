@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.div`
+width: 394px;
+height: 54px;
   .month {
     text-align: center;
     font-weight: 500;

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.div`
-.header {
+  width: 394px;
+  height: 48px;
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,4 +59,5 @@ export const HeaderWrapper = styled.div`
 
   .back-to-today:hover {
     background-color: #3367d6;
-  }`
+  }
+`

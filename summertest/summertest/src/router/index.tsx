@@ -15,8 +15,9 @@ const routes: RouteObject[] = [
     element: <Home />,
   },
   {
-    path: '/change',
-    element: <Change />,
-  },
+    path: '/change',  // 仅保留基础路径
+    element: <Change />
+  }
 ]
 export default routes
+  

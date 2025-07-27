@@ -1,3 +1,4 @@
 import styled from 'styled-components'
 
-export const CourseWrapper = styled.div``
+export const CourseWrapper = styled.div`
+`

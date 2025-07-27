@@ -10,13 +10,10 @@ interface Iprops {
 }
 
 const Courses: FC<Iprops> = () => {
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(fetchSchedule())
-  }, [dispatch])
+  
 
   return (
-    <CourseWrapper>
+    <CourseWrapper >
       <CourseSchedule/> 
       
     </CourseWrapper>

@@ -1,6 +1,7 @@
 export interface Course {
   id: number
   date: string
+  weekNumber: number
   day: '周一' | '周二' | '周三' | '周四' | '周五' | '周六' | '周日'
   section: number
   name: string

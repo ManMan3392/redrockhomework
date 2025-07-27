@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 export const TableWrapper = styled.div`
+  width: 394px;
+  height: 673px;
   .course-table {
     width: 100%;
     border-collapse: separate;
@@ -99,5 +101,29 @@ export const TableWrapper = styled.div`
   .course-name {
     font-weight: 500;
     margin-bottom: 14px;
+  }
+  .no-course {
+    border-radius: 8px;
+    width: 47px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .course-top {
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+    }
+    .course-bottom {
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+    }
   }
 `

@@ -9,8 +9,11 @@ import {
 } from '@/assets/data/coursesdetail'
 
 const generateScheduleData = (): ScheduleResponse => {
-  // 生成日期范围 (2024-02-24 至 2024-07-08)
-  const dateRange = generateDateRange('2024-02-24', '2024-07-08')
+  // 生成日期范围 (2024-02-24 至 2024-07-14)
+  const dateRange = generateDateRange('2025-02-24', '2025-07-20')
+
+  // 计算第20周周一日期 (2024-07-05)
+  const cutoffDate = new Date('2025-07-20')
 
   // 按星期几组织课程数据
   const scheduleData: Record<
@@ -31,6 +34,13 @@ const generateScheduleData = (): ScheduleResponse => {
   // 为每个日期生成课程
   dateRange.forEach((dateInfo) => {
     const { date, day } = dateInfo
+    const currentDate = new Date(date)
+
+    // 第二十周周一(2024-07-05)之后不排课
+    if (currentDate > cutoffDate) {
+      return
+    }
+
     const isWeekend = day === '周六' || day === '周日'
     const availableSections = isWeekend ? [7, 9] : [1, 3, 5]
 
@@ -46,7 +56,7 @@ const generateScheduleData = (): ScheduleResponse => {
       const isCyclic = Mock.Random.boolean(7, 3, true) // 70%概率是周期性课程
       const weekNumber =
         Math.floor(
-          (new Date(date).getTime() - new Date('2024-02-24').getTime()) /
+          (new Date(date).getTime() - new Date('2025-02-24').getTime()) /
             (7 * 24 * 60 * 60 * 1000),
         ) + 1
 
@@ -55,6 +65,7 @@ const generateScheduleData = (): ScheduleResponse => {
         date,
         day,
         section,
+        weekNumber,
         name: Mock.Random.pick(courseNames),
         place: Mock.Random.pick(classRooms),
         teacher: Mock.Random.pick(teacherNames),
@@ -87,7 +98,6 @@ const generateScheduleData = (): ScheduleResponse => {
 
   return data
 }
-
 Mock.mock(/\/api\/schedule/, 'get', generateScheduleData)
 
 export default generateScheduleData

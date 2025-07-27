@@ -11,31 +11,37 @@ const CourseSchedule: React.FC = () => {
   const { weeks } = useAppSelector(state => state.schedule);
   const [currentWeek, setCurrentWeek] = useState<number>(weeks[0]?.weekNumber || 1);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
-
+  const [isDetailVisible, setIsDetailVisible] = useState<boolean>(false)
   const handleWeekChange = (newWeek: number) => {
     if (newWeek !== currentWeek) {
-      setCurrentWeek(newWeek);
+      setCurrentWeek(newWeek)
     }
-  };
+  }
 
-  const currentWeekData = weeks.find(week => week.weekNumber === currentWeek) || { courses: [], dailyCourses: [] };
-  
+  const currentWeekData = weeks.find(
+    (week) => week.weekNumber === currentWeek,
+  ) || { courses: [], dailyCourses: [] }
+
   const dailyCourses = currentWeekData.dailyCourses as Course[][]
 
   return (
     <WeekWrapper>
-        <Head
-          uniqueWeeks={weeks.map((week) => week.weekNumber)}
-          currentWeek={currentWeek}
-          onWeekChange={handleWeekChange}
-        />
-        <DateHeader filteredDates={dailyCourses} />
-        <CourseTable
-          setSelectedCourse={setSelectedCourse}
-          filteredDates={dailyCourses}
-        />
-        {selectedCourse && <Detail selectedCourse={selectedCourse} /> }
-     
+      <Head
+        uniqueWeeks={weeks.map((week) => week.weekNumber)}
+        currentWeek={currentWeek}
+        onWeekChange={handleWeekChange}
+      />
+      <DateHeader filteredDates={dailyCourses} />
+      <CourseTable
+        setSelectedCourse={setSelectedCourse}
+        setIsDetailVisible={setIsDetailVisible}
+        filteredDates={dailyCourses}
+        isDetailVisible={isDetailVisible}
+      />
+      <Detail
+        selectedCourse={selectedCourse as Course}
+        isDetailVisible={isDetailVisible}
+      />
     </WeekWrapper>
   )
 }

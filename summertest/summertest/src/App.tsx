@@ -1,15 +1,21 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useRoutes } from 'react-router-dom'
 import routes from './router'
 import Courses from './views/course'
+import { useAppDispatch } from './store'
+import { fetchSchedule } from './store/scheduleSlice'
 
 function App() {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchSchedule())
+  }, [])
   return (
     <div className="App">
       <Suspense fallback="">
         <div className="main">
           {useRoutes(routes)}
-          <Courses />
+          {/* <Courses/> */}
         </div>
       </Suspense>
     </div>

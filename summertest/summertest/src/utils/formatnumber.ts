@@ -1,4 +1,5 @@
-export const formatNumber = (num: number) => {
+export const formatNumber = (num: number | string) => {
+  num = Number(num)
   const basicNumbers = [
     '一',
     '二',

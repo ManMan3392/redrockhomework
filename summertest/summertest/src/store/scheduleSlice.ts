@@ -26,7 +26,15 @@ const scheduleSlice = createSlice({
   initialState: {
     weeks: [] as WeekCourse[],
   },
-  reducers: {},
+  reducers: {
+    addCourseToWeek: (state, action) => {
+      const { weekNumber, dayNumber, course } = action.payload;
+      const weekIndex = state.weeks.findIndex(w => w.weekNumber === Number(weekNumber));
+      if (weekIndex !== -1) {
+        state.weeks[weekIndex].dailyCourses[Number(dayNumber)].push(course);
+      }
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSchedule.fulfilled, (state, action) => {
@@ -42,10 +50,8 @@ const scheduleSlice = createSlice({
             if (Array.isArray(dayCourses)) {
               dayCourses.forEach((course: Course) => {
                 // 计算周数
-                const weekNumber = Math.floor(
-                  (new Date(course.date).getTime() - new Date('2024-02-24').getTime()) /
-                  (7 * 24 * 60 * 60 * 1000)
-                ) + 1
+                // 直接使用课程数据中已有的weekNumber
+                const weekNumber = course.weekNumber;
 
                 // 获取或创建周数据
                 let weekData = weekMap.get(weekNumber)
@@ -86,5 +92,5 @@ const scheduleSlice = createSlice({
       // 移除rejected状态处理（初始状态中无loading和error字段）
   },
 })
-
+export const { addCourseToWeek } = scheduleSlice.actions
 export default scheduleSlice.reducer
