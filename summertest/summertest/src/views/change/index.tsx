@@ -1,20 +1,22 @@
 import type { ReactNode, FC } from 'react'
 import { memo, useState, useEffect } from 'react'
 import { ChangeWrapper } from './style'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { formatNumber } from '@/utils/formatnumber'
-import { useAppDispatch } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
 import { addCourseToWeek } from '@/store/scheduleSlice'
+import Changepage from './c-cpns/changepage'
+import { todolist } from '@/assets/data/todo'
 
 interface Iprops {
   children?: ReactNode
 }
 
 const Change: FC<Iprops> = () => {
-  const [searchParams] = useSearchParams()
-  const weeknumber = searchParams.get('weeknumber') as string
-  const daynumber = searchParams.get('daynumber') as string
-  const section = searchParams.get('section') as string
+  const [isPush, setIsPush] = useState(false)
+  const weeknumber = useAppSelector((state) => state.changeCourse.weeknumber)
+  const daynumber = useAppSelector((state) => state.changeCourse.daynumber)
+  const section = useAppSelector((state) => state.changeCourse.section)
   const [inputValue, setInputValue] = useState('')
   const [records, setRecords] = useState<string[]>([]) // 存储历史记录
   const navigate = useNavigate()
@@ -22,18 +24,18 @@ const Change: FC<Iprops> = () => {
   const [title, setTitle] = useState('为你的行程添加一个标题')
   const [isWarm, setIsWarm] = useState(false)
   const [isEntering, setIsEntering] = useState(true)
+  const [isChangePage, setIsChangePage] = useState(false)
   const dispatch = useAppDispatch()
 
   const handleNextClick = () => {
     if (inputValue || isSliding !== 0) {
       setIsSliding(isSliding + 1)
       console.log(isSliding)
-      if(isSliding === 1){
-        setTitle('为你的行程添加具体内容')
-      }
+      setTitle('为你的行程添加具体内容')
+
       if (isSliding === 0) {
         setInputValue('')
-      } 
+      }
       setRecords((prev) => [...prev, inputValue])
       if (isSliding === 2) {
         console.log(weeknumber, daynumber, section, records[0], inputValue)
@@ -44,12 +46,13 @@ const Change: FC<Iprops> = () => {
           content: inputValue,
           id: Date.now(), // 生成唯一ID
         }
-dispatch(addCourseToWeek({
-    weekNumber: weeknumber,
-    dayNumber: daynumber,
-    course: newCourse,
-  }),
-)
+        dispatch(
+          addCourseToWeek({
+            weekNumber: weeknumber,
+            dayNumber: daynumber,
+            course: newCourse,
+          }),
+        )
       }
     } else {
       setIsWarm(true)
@@ -62,10 +65,10 @@ dispatch(addCourseToWeek({
   useEffect(() => {
     // 触发进场动画
     const animationFrame = requestAnimationFrame(() => {
-      setIsEntering(false);
-    });
-    return () => cancelAnimationFrame(animationFrame);
-  }, []);
+      setIsEntering(false)
+    })
+    return () => cancelAnimationFrame(animationFrame)
+  }, [])
 
   return (
     <ChangeWrapper isEntering={isEntering}>
@@ -75,7 +78,15 @@ dispatch(addCourseToWeek({
           navigate(-1)
         }}
       ></div>
-      <div className={isSliding === 2 ? 'hidden' : ''}></div>
+      <div
+        className={isSliding === 2 ? 'hidden' : ''}
+        onClick={() => {
+          if (isChangePage) {
+            setIsChangePage(false)
+            setIsPush(false)
+          }
+        }}
+      ></div>
       <input
         type="text"
         className="input"
@@ -104,18 +115,7 @@ dispatch(addCourseToWeek({
       </div>
       <div className="bg"></div>
       <div className={`choice ${isSliding !== 0 ? 'slide-out' : ''}`}>
-        {[
-          '自习',
-          '值班',
-          '考试',
-          '英语',
-          '开会',
-          '作业',
-          '补课',
-          '实验',
-          '复习',
-          '学习',
-        ].map((item) => (
+        {todolist.map((item) => (
           <div
             className="choice-item"
             key={item}
@@ -130,12 +130,34 @@ dispatch(addCourseToWeek({
         ))}
       </div>
       <div className={`items ${isSliding !== 2 ? 'slide-out' : ''}`}>
-        <div className="weeknumber item">{`第${formatNumber(weeknumber)}周`}</div>
-        <div className="time item">{`周${formatNumber(Number(daynumber) + 1)} 第${formatNumber(section)}节课`}</div>
+        <div className="weeknumber item">{`第${formatNumber(weeknumber[0])}周`}</div>
+        <div className="section">
+          {daynumber.map((item, index) => (
+            <div className="time" onClick={() => setIsChangePage(true)}>
+              {`周${formatNumber(Number(item) + 1)} 
+              第${formatNumber(section[index][0])}节课 
+              ${section[index][1] === section[index][0] || !section[index][1] ? '' : `-第${formatNumber(section[index][1])}节课`}`}
+            </div>
+          ))}
+
+          <div
+            className="add"
+            onClick={() => {
+              setIsChangePage(true)
+              setIsPush(true)
+            }}
+          ></div>
+        </div>
+
         <div className="remind item">不提醒</div>
         <div className="todo item">加入待办</div>
       </div>
       <div className="next" onClick={handleNextClick}></div>
+      <Changepage
+        isChangePage={isChangePage}
+        isPush={isPush}
+        setIsChangePage={setIsChangePage}
+      />
     </ChangeWrapper>
   )
 }

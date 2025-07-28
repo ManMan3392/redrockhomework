@@ -7,11 +7,13 @@ import {
 } from 'react-redux'
 import scheduleReducer from './scheduleSlice'
 import newStudentsReducer from './newStudents'
+import changeCourseReducer from './changeCourseSlice'
 
 const store = configureStore({
   reducer: {
     schedule: scheduleReducer,
     newstudents: newStudentsReducer,
+    changeCourse: changeCourseReducer,
   },
 })
 

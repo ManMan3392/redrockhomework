@@ -13,5 +13,4 @@ const request = new MyRequest({
     },
   },
 })
-
 export default request

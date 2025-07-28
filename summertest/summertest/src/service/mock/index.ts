@@ -10,10 +10,10 @@ import {
 
 const generateScheduleData = (): ScheduleResponse => {
   // 生成日期范围 (2024-02-24 至 2024-07-14)
-  const dateRange = generateDateRange('2025-02-24', '2025-07-20')
+  const dateRange = generateDateRange('2025-02-24', '2025-03-23')
 
   // 计算第20周周一日期 (2024-07-05)
-  const cutoffDate = new Date('2025-07-20')
+  const cutoffDate = new Date('2025-03-23')
 
   // 按星期几组织课程数据
   const scheduleData: Record<
@@ -98,6 +98,7 @@ const generateScheduleData = (): ScheduleResponse => {
 
   return data
 }
+console.log(generateScheduleData())
 Mock.mock(/\/api\/schedule/, 'get', generateScheduleData)
 
 export default generateScheduleData

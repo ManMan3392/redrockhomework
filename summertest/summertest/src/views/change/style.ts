@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 import title_bg from '@/assets/img/title_bg.jpg'
-import content_bg from '@/assets/img/content_bg.jpg'
+import add_icon from '@/assets/img/add_icon.png'
 
 export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
   width: 414px;
   height: 896px;
   overflow: hidden;
+  position: fixed;
   background-image: url(${title_bg});
   background-size: 100% 100%;
   transition: transform 0.3s ease-out;
@@ -108,7 +109,7 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
     transition: all 0.1s ease;
   }
   .bg {
-    width: 360px;
+    width: 364px;
     height: 79px;
     position: absolute;
     top: 378px;
@@ -158,7 +159,6 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
   }
   .items {
     width: 360px;
-    height: 188px;
     position: absolute;
     top: 393px;
     left: 20px;
@@ -181,10 +181,31 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
       font-size: 15px;
       color: rgb(66, 79, 101);
       font-weight: 500;
+      margin-bottom: 10px;
     }
-    .time {
-      width: 110px;
-      font-size: 13px;
+    .section {
+      display: flex;
+      flex-wrap: wrap;
+      .add {
+        height: 41px;
+        width: 32px;
+        background: url(${add_icon}) center;
+        transition: all 0.3s ease-out;
+      }
+      .time {
+        height: 37px;
+        border-radius: 20px;
+        line-height: 37px;
+        background-color: rgb(239, 245, 252);
+        text-align: center;
+        font-size: 15px;
+        color: rgb(66, 79, 101);
+        font-weight: 500;
+        font-size: 13px;
+        margin-right: 10px;
+        padding: 0 15px;
+        margin-bottom: 10px;
+      }
     }
     .todo {
       width: 90px;
