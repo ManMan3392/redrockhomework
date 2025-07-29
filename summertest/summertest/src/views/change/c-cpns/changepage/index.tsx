@@ -55,7 +55,6 @@ const ChangePage: FC<Iprops> = ({ isChangePage, isPush, setIsChangePage, chooseW
         section1: sectionIndex1,
         section2: sectionIndex2,
       }
-      console.log('三个子组件的activeIndex:', result)
       if (isPush) {
         dispatch(addDaynumber(dayIndex))
         dispatch(addSection([sectionIndex1 + 1, sectionIndex2 + 1]))

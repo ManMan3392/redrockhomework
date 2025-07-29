@@ -25,7 +25,7 @@ const Detail: FC<Iprops> = (props) => {
   }
 
   const handleChange = () => {
-    navigate('/weekCourse/change', {
+    navigate('/change', {
       state: {
         selectedCourse,
       },
@@ -58,9 +58,9 @@ const Detail: FC<Iprops> = (props) => {
           )}
           {selectedCourse.courseName === '自定义' && (
             <div className="infos">
-              {selectedCourse.dayNumber && (
-                <div className="details-info">{`第${formatNumber(selectedCourse.weekNumber)}周 周${formatNumber(selectedCourse.dayNumber + 1)} ${timeList[selectedCourse.section]}`}</div>
-              )}
+              
+                <div className="details-info">{`第${formatNumber(selectedCourse?.weekNumber)}周 周${formatNumber(selectedCourse.dayNumber as number + 1)} ${timeList[selectedCourse.section]}`}</div>
+              
               <div className="detailcontent">{selectedCourse.content}</div>
             </div>
           )}

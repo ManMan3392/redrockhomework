@@ -4,7 +4,7 @@ import add_icon from '@/assets/img/add_icon.png'
 
 export const ChangeWrapper = styled.div<{ $isEntering: boolean }>`
   // Use the transient prop in your styles
-  opacity: ${props => props.$isEntering ? 0 : 1};
+  opacity: ${(props) => (props.$isEntering ? 0 : 1)};
   transition: opacity 0.3s ease;
   width: 414px;
   height: 896px;
@@ -49,15 +49,17 @@ export const ChangeWrapper = styled.div<{ $isEntering: boolean }>`
   }
   .realtitle {
     position: absolute;
-    height: 30px;
-    width: 100px;
     font-weight: 400;
     color: rgb(51, 68, 92);
     z-index: 99;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 40px;
     transition: all 0.3s ease-out;
   }
   .minitile {
-    top: 164px;
+    top: 153px;
     left: 68px;
     font-size: 16px;
   }

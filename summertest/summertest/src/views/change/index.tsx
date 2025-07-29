@@ -28,15 +28,28 @@ const Change: FC<Iprops> = () => {
   const [isChangePage, setIsChangePage] = useState(false)
   const [chooseWeek, setChooseWeek] = useState(false)
   const dispatch = useAppDispatch()
+  const location = useLocation()
+  const target = location.state?.selectedCourse
+  // 添加realtitleValue状态管理输入框内容
+  const [realtitleValue, setRealtitleValue] = useState('')
+  useEffect(() => {
+    if (target) {
+      setIsSliding(2)
+      setRealtitleValue(target.name)
+      // 设置inputValue为target的content属性
+      setInputValue(target.content || '')
+    }
+  }, [target]) // 仅在target变化时执行
+  
 
   const handleNextClick = () => {
     if (inputValue || isSliding !== 0) {
       setIsSliding(isSliding + 1)
-      console.log(isSliding)
       setTitle('为你的行程添加具体内容')
 
       if (isSliding === 0) {
-        setInputValue('')
+        setRealtitleValue(inputValue); // 直接使用当前输入值作为标题
+        setInputValue(''); // 清空输入框
       }
       setRecords((prev) => [...prev, inputValue])
       if (isSliding === 2) {
@@ -45,8 +58,9 @@ const Change: FC<Iprops> = () => {
             const day = daynumber[i];
             const sectionInfo = section[i];
             const newCourse = {
-              id: Date.now() + week + i, // 修复：增加week确保不同周课程ID唯一
-              name: records[0],
+              id: Date.now() + week + i,
+              // 使用realtitleValue作为标题
+              name: realtitleValue,
               weekNumber: week,
               dayNumber: day,
               section: sectionInfo[0],
@@ -61,7 +75,6 @@ const Change: FC<Iprops> = () => {
                 course: newCourse,
               }),
             )
-            console.log(newCourse)
           }
         })
         navigate(-1)
@@ -111,11 +124,15 @@ const Change: FC<Iprops> = () => {
         autoComplete="off" // 添加此属性禁用浏览器自动填充
       />
       <div className={`lasttitle ${isSliding === 1 ? '' : 'slide-out'}`}>
-        {`标题： ${records[0]}`}
+        {`标题： ${realtitleValue}`}
       </div>
-      <div className={`realtitle ${isSliding === 2 ? 'maxtitle' : 'minitile'}`}>
-        {records[0]}
-      </div>
+      {/* 将静态文本div改为透明输入框 */}
+      <input
+        type="text"
+        className={`realtitle ${isSliding === 2 ? 'maxtitle' : 'minitile'}`}
+        value={realtitleValue}
+        onChange={(e) => setRealtitleValue(e.target.value)}
+      />
       <div
         className={`titlebg ${isSliding === 2 ? 'slide-out' : ''}`}
       >{`${title}`}</div>
@@ -157,7 +174,7 @@ const Change: FC<Iprops> = () => {
         <div className="section">
           {daynumber.map((item, index) => (
             <div
-              key={item + index}
+              key={index}
               className="time"
               onClick={() => {
                 setIsChangePage(true)

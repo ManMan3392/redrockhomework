@@ -98,7 +98,6 @@ const generateScheduleData = (): ScheduleResponse => {
 
   return data
 }
-console.log(generateScheduleData())
 Mock.mock(/\/api\/schedule/, 'get', generateScheduleData)
 
 export default generateScheduleData
