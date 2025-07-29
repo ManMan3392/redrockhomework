@@ -1,54 +1,53 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import my_courses_bg from '@/assets/img/my_courses_bg.png'
+
+
 
 export const TableWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 51px);
   width: 394px;
   height: 673px;
-  .course-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 1px; // 行间隔1px
-    margin-bottom: 20px;
+  display: flex;
+  position: relative;
+  /* 节次列样式 */
+  .section-column {
+    width: 29px;
   }
 
-  .course-table th,
-  .course-table td {
-    width: 40px;
+  .section-cell {
     height: 55px;
     font-size: 14px;
     text-align: center;
     background: #fff;
-    border: none;
-    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
+  /* 课程网格容器 */
+  .course-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 51px);
+    grid-template-rows: repeat(12, 57px);
+    gap: 1px;
+    padding: 1px;
+    padding-left: 3px;
+  }
+
+  /* 课程单元格样式 */
   .courseitem {
-    height: 110px !important; // 一节课占两个格子
-    min-width: 40px;
-    max-width: 40px;
-    padding: 0;
-    overflow: hidden; // 防止内容溢出
+    width: 47px;
+    margin-left: 8px;
+    overflow: hidden;
     position: relative;
     background: #fff;
   }
 
-  .course-table tr {
-    background: #fff;
-  }
-
-  .course-table th {
-    background-color: #f1f3f4;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .section-cell {
-    width: 29px !important;
-  }
-  .courseitem {
-    height: 105px !important;
-  }
   .has-courses {
-    vertical-align: top;
+    display: flex;
+    align-items: flex-start;
   }
 
   .course-info {
@@ -67,10 +66,15 @@ export const TableWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
   }
-
+   .my-course {
+    text-align: center !important;
+    color: rgb(45, 55, 62) !important;
+    background-image: url(${my_courses_bg}) !important;
+  }
   .course-info:hover {
     background-color: #d2e3fc;
   }
+
   .course-info.section-1,
   .course-info.section-3 {
     background-color: rgb(249, 232, 217);
@@ -88,20 +92,25 @@ export const TableWrapper = styled.div`
     background-color: rgb(221, 228, 248);
     color: rgb(121, 131, 205);
   }
+
   .course-name,
   .course-place {
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
+    display: -webkit-box; /* 缺少的关键属性 */
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    line-clamp: 3; /* 标准属性，增强兼容性 */
   }
 
   .course-name {
     font-weight: 500;
     margin-bottom: 14px;
+    height: 90px;
   }
+
   .no-course {
     border-radius: 8px;
     width: 47px;
@@ -115,15 +124,12 @@ export const TableWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    .course-top {
-      border-radius: 8px;
-      width: 100%;
-      height: 100%;
-    }
-    .course-bottom {
-      border-radius: 8px;
-      width: 100%;
-      height: 100%;
-    }
+  }
+
+  .course-top,
+  .course-bottom {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
   }
 `

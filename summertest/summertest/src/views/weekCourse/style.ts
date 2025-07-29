@@ -2,11 +2,11 @@ import styled from 'styled-components'
 
 export const WeekWrapper = styled.div`
   width: 394px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
   padding: 20px 10px;
+  padding-top: 0;
   background-color: #fff;
-  position: relative;
+  position: absolute;
+  bottom: 0;
   div {
     width: 100%;
     height: 100%;

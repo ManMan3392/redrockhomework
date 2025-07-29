@@ -33,6 +33,10 @@ export const HomeWrapper = styled.div`
     height: 840px;
     overflow: hidden;
     transition: height 0.5s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: #fff;
     .foldbutton {
       position: absolute;
       top: 8px;

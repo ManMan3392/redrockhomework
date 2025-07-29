@@ -49,10 +49,10 @@ const Change: FC<Iprops> = () => {
               name: records[0],
               weekNumber: week,
               dayNumber: day,
-              section: sectionInfo[0], 
-              cycle: sectionInfo[1],  
+              section: sectionInfo[0],
+              cycle: sectionInfo[1],
               content: inputValue,
-              courseNames:'自定义'
+              courseName: '自定义',
             }
             dispatch(
               addCourseToWeek({

@@ -10,6 +10,9 @@ export interface Course {
   cycle?: string
   time?: string
   type?: '必修' | '选修' | '实践'
+  courseName: string
+  content?: string
+  dayNumber?: number
 }
 export interface WeekCourse {
   weekNumber: number

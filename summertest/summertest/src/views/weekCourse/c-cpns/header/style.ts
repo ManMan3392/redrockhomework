@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.div`
-  width: 394px;
+  width: 414px;
   height: 48px;
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 10px;
+    padding: 27px 18px;
   }
 
   .week-navigation {

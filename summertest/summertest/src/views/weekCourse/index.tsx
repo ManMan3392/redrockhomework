@@ -1,47 +1,32 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { WeekWrapper } from './style'
-import type { Course} from '@/service/types'
-import {useAppSelector} from '@/store'
-import Head from './c-cpns/header'
+import type { Course } from '@/service/types'
 import DateHeader from './c-cpns/date-header'
 import CourseTable from './c-cpns/course-table'
 import Detail from './c-cpns/detail'
-import { shallowEqual } from 'react-redux'
 
-const CourseSchedule: React.FC = () => {
-  const { weeks } = useAppSelector(state => state.schedule,shallowEqual);
-  const [currentWeek, setCurrentWeek] = useState<number>(weeks[0]?.weekNumber || 1);
+interface Iprops {
+  children?: ReactNode
+  weeknumber: number
+}
+
+const CourseSchedule: React.FC<Iprops> = ({ weeknumber }) => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const [isDetailVisible, setIsDetailVisible] = useState<boolean>(false)
-  const handleWeekChange = (newWeek: number) => {
-    if (newWeek !== currentWeek) {
-      setCurrentWeek(newWeek)
-    }
-  }
-
-  const currentWeekData = weeks.find(
-    (week) => week.weekNumber === currentWeek,
-  ) || { courses: [], dailyCourses: [] }
-
-  const dailyCourses = currentWeekData.dailyCourses as Course[][]
 
   return (
     <WeekWrapper>
-      <Head
-        uniqueWeeks={weeks.map((week) => week.weekNumber)}
-        currentWeek={currentWeek}
-        onWeekChange={handleWeekChange}
-      />
-      <DateHeader filteredDates={dailyCourses} />
+      <DateHeader weeknumber={weeknumber} />
       <CourseTable
         setSelectedCourse={setSelectedCourse}
         setIsDetailVisible={setIsDetailVisible}
-        weekCourses={dailyCourses}
         isDetailVisible={isDetailVisible}
+        weeknumber={weeknumber}
       />
       <Detail
         selectedCourse={selectedCourse as Course}
         isDetailVisible={isDetailVisible}
+        setIsDetailVisible={setIsDetailVisible}
       />
     </WeekWrapper>
   )
