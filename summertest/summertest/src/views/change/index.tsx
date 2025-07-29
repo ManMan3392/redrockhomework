@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/store'
 import { addCourseToWeek } from '@/store/scheduleSlice'
 import Changepage from './c-cpns/changepage'
 import { todolist } from '@/assets/data/todo'
+import { courseNames } from '@/assets/data/coursesdetail'
 
 interface Iprops {
   children?: ReactNode
@@ -18,13 +19,14 @@ const Change: FC<Iprops> = () => {
   const daynumber = useAppSelector((state) => state.changeCourse.daynumber)
   const section = useAppSelector((state) => state.changeCourse.section)
   const [inputValue, setInputValue] = useState('')
-  const [records, setRecords] = useState<string[]>([]) // 存储历史记录
+  const [records, setRecords] = useState<string[]>([])
   const navigate = useNavigate()
   const [isSliding, setIsSliding] = useState(0)
   const [title, setTitle] = useState('为你的行程添加一个标题')
   const [isWarm, setIsWarm] = useState(false)
   const [isEntering, setIsEntering] = useState(true)
   const [isChangePage, setIsChangePage] = useState(false)
+  const [chooseWeek, setChooseWeek] = useState(false)
   const dispatch = useAppDispatch()
 
   const handleNextClick = () => {
@@ -38,21 +40,31 @@ const Change: FC<Iprops> = () => {
       }
       setRecords((prev) => [...prev, inputValue])
       if (isSliding === 2) {
-        console.log(weeknumber, daynumber, section, records[0], inputValue)
-        const newCourse = {
-          weekNumber: Number(weeknumber),
-          section: Number(section),
-          name: records[0],
-          content: inputValue,
-          id: Date.now(), // 生成唯一ID
-        }
-        dispatch(
-          addCourseToWeek({
-            weekNumber: weeknumber,
-            dayNumber: daynumber,
-            course: newCourse,
-          }),
-        )
+        weeknumber.forEach(week => {
+          for (let i = 0; i < daynumber.length; i++) {
+            const day = daynumber[i];
+            const sectionInfo = section[i];
+            const newCourse = {
+              id: Date.now() + week + i, // 修复：增加week确保不同周课程ID唯一
+              name: records[0],
+              weekNumber: week,
+              dayNumber: day,
+              section: sectionInfo[0], 
+              cycle: sectionInfo[1],  
+              content: inputValue,
+              courseNames:'自定义'
+            }
+            dispatch(
+              addCourseToWeek({
+                weekNumber: week, // 修复：使用当前循环的week而非整个数组
+                dayNumber: day,   // 修复：使用当前循环的day而非整个数组
+                course: newCourse,
+              }),
+            )
+            console.log(newCourse)
+          }
+        })
+        navigate(-1)
       }
     } else {
       setIsWarm(true)
@@ -71,7 +83,7 @@ const Change: FC<Iprops> = () => {
   }, [])
 
   return (
-    <ChangeWrapper isEntering={isEntering}>
+    <ChangeWrapper $isEntering={isEntering}>
       <div
         className="back"
         onClick={() => {
@@ -130,10 +142,28 @@ const Change: FC<Iprops> = () => {
         ))}
       </div>
       <div className={`items ${isSliding !== 2 ? 'slide-out' : ''}`}>
-        <div className="weeknumber item">{`第${formatNumber(weeknumber[0])}周`}</div>
+        <div className="section">
+          {weeknumber.map((item,index) => (
+            <div
+              key={item + index}
+              className="time"
+              onClick={() => {
+                setIsChangePage(true)
+                setChooseWeek(true)
+              }}
+            >{`第${formatNumber(item)}周`}</div>
+          ))}
+        </div>
         <div className="section">
           {daynumber.map((item, index) => (
-            <div className="time" onClick={() => setIsChangePage(true)}>
+            <div
+              key={item + index}
+              className="time"
+              onClick={() => {
+                setIsChangePage(true)
+                setChooseWeek(false)
+              }}
+            >
               {`周${formatNumber(Number(item) + 1)} 
               第${formatNumber(section[index][0])}节课 
               ${section[index][1] === section[index][0] || !section[index][1] ? '' : `-第${formatNumber(section[index][1])}节课`}`}
@@ -145,6 +175,7 @@ const Change: FC<Iprops> = () => {
             onClick={() => {
               setIsChangePage(true)
               setIsPush(true)
+              setChooseWeek(false)
             }}
           ></div>
         </div>
@@ -157,6 +188,7 @@ const Change: FC<Iprops> = () => {
         isChangePage={isChangePage}
         isPush={isPush}
         setIsChangePage={setIsChangePage}
+        chooseWeek={chooseWeek}
       />
     </ChangeWrapper>
   )

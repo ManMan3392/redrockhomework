@@ -2,7 +2,10 @@ import styled from 'styled-components'
 import title_bg from '@/assets/img/title_bg.jpg'
 import add_icon from '@/assets/img/add_icon.png'
 
-export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
+export const ChangeWrapper = styled.div<{ $isEntering: boolean }>`
+  // Use the transient prop in your styles
+  opacity: ${props => props.$isEntering ? 0 : 1};
+  transition: opacity 0.3s ease;
   width: 414px;
   height: 896px;
   overflow: hidden;
@@ -11,7 +14,7 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
   background-size: 100% 100%;
   transition: transform 0.3s ease-out;
   transform: ${(props) =>
-    props.isEntering ? 'translateX(100%)' : 'translateX(0)'}; // 从右侧滑入
+    props.$isEntering ? 'translateX(100%)' : 'translateX(0)'}; // 从右侧滑入
   .back {
     width: 30px;
     height: 30px;
@@ -140,6 +143,7 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
       color: rgb(144, 156, 173);
       font-weight: 500;
       background-color: rgb(241, 245, 255);
+      transition: all 0.3s ease-out;
     }
   }
   .next {
@@ -150,7 +154,6 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
     left: 169px;
   }
   .choice {
-    /* 已有样式保持不变 */
     transition: transform 0.1s ease-out;
   }
 
@@ -186,6 +189,7 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
     .section {
       display: flex;
       flex-wrap: wrap;
+      transition: all 0.3s ease-out;
       .add {
         height: 41px;
         width: 32px;
@@ -205,6 +209,7 @@ export const ChangeWrapper = styled.div<{ isEntering: boolean }>`
         margin-right: 10px;
         padding: 0 15px;
         margin-bottom: 10px;
+        transition: all 0.3s ease-out;
       }
     }
     .todo {

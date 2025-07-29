@@ -6,9 +6,10 @@ import Head from './c-cpns/header'
 import DateHeader from './c-cpns/date-header'
 import CourseTable from './c-cpns/course-table'
 import Detail from './c-cpns/detail'
+import { shallowEqual } from 'react-redux'
 
 const CourseSchedule: React.FC = () => {
-  const { weeks } = useAppSelector(state => state.schedule);
+  const { weeks } = useAppSelector(state => state.schedule,shallowEqual);
   const [currentWeek, setCurrentWeek] = useState<number>(weeks[0]?.weekNumber || 1);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const [isDetailVisible, setIsDetailVisible] = useState<boolean>(false)
@@ -35,7 +36,7 @@ const CourseSchedule: React.FC = () => {
       <CourseTable
         setSelectedCourse={setSelectedCourse}
         setIsDetailVisible={setIsDetailVisible}
-        filteredDates={dailyCourses}
+        weekCourses={dailyCourses}
         isDetailVisible={isDetailVisible}
       />
       <Detail

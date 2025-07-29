@@ -10,22 +10,22 @@ import { setDaynumber, setSection, setWeeknumber } from '@/store/changeCourseSli
 interface Iprops {
   children?: ReactNode
   setSelectedCourse: (course: Course | null) => void
-  filteredDates: Course[][]
+  weekCourses: Course[][]
   isDetailVisible: boolean
   setIsDetailVisible: (visible: boolean) => void
 }
-const CourseTable: FC<Iprops> = ({ setSelectedCourse, filteredDates, setIsDetailVisible, isDetailVisible = false }) => {
+const CourseTable: FC<Iprops> = ({ setSelectedCourse, weekCourses, setIsDetailVisible, isDetailVisible = false }) => {
   // 直接通过数组索引获取对应星期的课程
   const getCoursesForDay = (dayIndex: number, section: number) => {
-    const dayCourses = filteredDates[dayIndex] || []
+    const dayCourses = weekCourses[dayIndex] || []
     return dayCourses.filter((course) => course.section === section)
   }
-  const weeknumber = filteredDates?.[0]?.[0]?.weekNumber
+  const weeknumber = weekCourses?.[0]?.[0]?.weekNumber
   const allSections = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [activeBoxes, setActiveBoxes] = useState<Record<string, boolean>>({})
 
   const dispatch = useAppDispatch()
-
+console.log(weekCourses)
   const navigate = useNavigate()
   const handleClick = (
     section: number,
@@ -69,7 +69,7 @@ const CourseTable: FC<Iprops> = ({ setSelectedCourse, filteredDates, setIsDetail
           {allSections?.map((section) => (
             <tr key={section}>
               <td className="section-cell">{section}</td>
-              {filteredDates?.map((_, dayIndex) => {
+              {weekCourses?.map((_, dayIndex) => {
                 if (section % 2 === 1) {
                   const courses = getCoursesForDay(dayIndex, section)
                   return (
@@ -111,7 +111,7 @@ const CourseTable: FC<Iprops> = ({ setSelectedCourse, filteredDates, setIsDetail
                             className="course-bottom"
                             style={{
                               background: activeBoxes[
-                                `${section}-${dayIndex}-bottom`
+                                `${section + 1}-${dayIndex}-bottom`
                               ]
                                 ? `url(${no_course}) -273px -325px`
                                 : '',

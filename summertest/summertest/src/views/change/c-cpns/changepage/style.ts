@@ -5,7 +5,7 @@ export const ChangePageWrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 380px;
+  /* height: 380px; */
   border-top-right-radius: 18px;
   border-top-left-radius: 18px;
   background-color: rgb(255, 255, 255);
@@ -15,7 +15,10 @@ export const ChangePageWrapper = styled.div`
   transition: all 0.5s ease;
   .choose {
     display: flex;
+    /* box-sizing: border-box; */
     justify-content: space-evenly;
+    margin-bottom: 135px;
+    height: 250px;
     .msk {
       position: absolute;
       top: 0px;
@@ -44,6 +47,22 @@ export const ChangePageWrapper = styled.div`
       z-index: 99;
       background-color: transparent;
       border-block: 1px solid rgb(45, 135, 245);
+    }
+  }
+  .weeknumber {
+    display: flex;
+    padding: 23px 12px;
+    flex-wrap: wrap;
+    margin-bottom: 79px;
+    .weeknumber-item {
+      text-align: center;
+      padding: 10px 16px;
+      background-color: rgb(238, 245, 251);
+      font-weight: 500;
+      color: rgb(66, 79, 101);
+      border-radius: 18px;
+      margin: 6px;
+      font-size: 16px;
     }
   }
   .button {
