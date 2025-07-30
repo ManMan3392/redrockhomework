@@ -27,8 +27,13 @@ const changeCourseSlice = createSlice({
     setSection(state, action) {
       state.section = [...action.payload]
     },
+    updateChangeCourseTime: (state, action) => {
+      state.weeknumber = action.payload.weeknumber
+      state.daynumber = action.payload.daynumber
+      state.section = action.payload.section
+    },
   },
 })
 
-export const { setWeeknumber, setDaynumber, setSection, addDaynumber, addSection,addWeeknumber } = changeCourseSlice.actions
+export const { setWeeknumber, setDaynumber, setSection, addDaynumber, addSection,addWeeknumber,updateChangeCourseTime } = changeCourseSlice.actions
 export default changeCourseSlice.reducer

@@ -1,27 +1,27 @@
-import React, { ReactNode, useState } from 'react'
+import { FC, useState } from 'react'
 import { WeekWrapper } from './style'
 import type { Course } from '@/service/types'
 import DateHeader from './c-cpns/date-header'
 import CourseTable from './c-cpns/course-table'
 import Detail from './c-cpns/detail'
 
-interface Iprops {
-  children?: ReactNode
+interface Props {
   weeknumber: number
 }
 
-const CourseSchedule: React.FC<Iprops> = ({ weeknumber }) => {
+const CourseSchedule: FC<Props> = ({ weeknumber }) => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
-  const [isDetailVisible, setIsDetailVisible] = useState<boolean>(false)
+  const [isDetailVisible, setIsDetailVisible] = useState(false)
 
   return (
     <WeekWrapper>
       <DateHeader weeknumber={weeknumber} />
       <CourseTable
+        key={weeknumber} 
+        weeknumber={weeknumber}
         setSelectedCourse={setSelectedCourse}
         setIsDetailVisible={setIsDetailVisible}
         isDetailVisible={isDetailVisible}
-        weeknumber={weeknumber}
       />
       <Detail
         selectedCourse={selectedCourse as Course}

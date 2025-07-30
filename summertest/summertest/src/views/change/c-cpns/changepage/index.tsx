@@ -108,7 +108,7 @@ const ChangePage: FC<Iprops> = ({ isChangePage, isPush, setIsChangePage, chooseW
           {/* 第三个子组件：section选择器2 */}
           <Changebar
             items={SECTION}
-            choose={section[0][0] - 1}
+            choose={section[0][1] - 1}
             onActiveIndexChange={setSectionIndex2} // 绑定回调
           />
         </div>

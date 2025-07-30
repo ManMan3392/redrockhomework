@@ -1,17 +1,13 @@
-import type { ReactNode, FC } from 'react'
-import { memo, useState, useRef, useEffect } from 'react'
+import { FC, useState, useEffect, useRef } from 'react'
 import { CourseWrapper } from './style'
-import { useAppDispatch, useAppSelector } from '@/store'
-import CourseSchedule from '../weekCourse'
-import Header from '../weekCourse/c-cpns/header'
+import { useAppSelector } from '@/store'
 import { shallowEqual } from 'react-redux'
-import { formatDate, getCurrentWeek } from '@/utils/formatDate'
+import { getCurrentWeek } from '@/utils/formatDate'
+import Header from '../weekCourse/c-cpns/header'
+import CourseSchedule from '../weekCourse'
+import { useLocation } from 'react-router-dom'
 
-interface Iprops {
-  children?: ReactNode
-}
-
-const Courses: FC<Iprops> = () => {
+const Courses: FC = () => {
   const { weeks } = useAppSelector((state) => state.schedule, shallowEqual)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [startX, setStartX] = useState(0)
@@ -19,56 +15,37 @@ const Courses: FC<Iprops> = () => {
   const [translateX, setTranslateX] = useState(0)
   const slideWidth = useRef(0)
   const carouselRef = useRef<HTMLDivElement>(null)
-  // 动态获取当前周数，替换硬编码的0
-  const currentWeekNumber = getCurrentWeek()
-  const [isCurrentWeek, setIsCurrentWeek] = useState(false)
+  const location = useLocation()
+  const prevLocation = useRef<string | null>(null)
 
-  // 添加轮播初始化逻辑
+  // 路由变化时处理
+  useEffect(() => {
+    if (prevLocation.current && prevLocation.current !== location.pathname) {
+      if (weeks.length > 0) {
+        setCurrentSlide(0)
+        setTranslateX(0)
+      }
+    }
+    prevLocation.current = location.pathname
+  }, [location.pathname, weeks])
+
+  // 初始化显示第一周
   useEffect(() => {
     if (weeks.length > 0 && slideWidth.current > 0) {
-      // 查找当前周在数组中的索引
-      const currentIndex = weeks.findIndex(
-        (week) => week.weekNumber === currentWeekNumber,
-      )
-      if (currentIndex !== -1) {
-        setCurrentSlide(currentIndex)
-        setTranslateX(-currentIndex * slideWidth.current)
-      }
+      setCurrentSlide(0)
+      setTranslateX(0)
     }
-  }, [currentWeekNumber, weeks])
+  }, [weeks])
 
-  // 获取轮播项宽度
+  // 计算滑动宽度
   useEffect(() => {
     if (carouselRef.current) {
       slideWidth.current = carouselRef.current.offsetWidth
-      // 宽度获取后重新计算当前周位置
-      if (weeks.length > 0) {
-        const currentIndex = weeks.findIndex(
-          (week) => week.weekNumber === currentWeekNumber,
-        )
-        if (currentIndex !== -1) {
-          setTranslateX(-currentIndex * slideWidth.current)
-        }
-      }
+      setTranslateX(0)
     }
   }, [])
 
-  // 检测是否为当前周
-  // useEffect(() => {
-  //   if (weeks.length > 0) {
-  //     const currentWeek = weeks[currentSlide]?.weekNumber || 0
-  //     setIsCurrentWeek(currentWeek === currentWeekNumber)
-  //   }
-  // }, [currentSlide, weeks, currentWeekNumber])
-
-  // 获取轮播项宽度
-  useEffect(() => {
-    if (carouselRef.current) {
-      slideWidth.current = carouselRef.current.offsetWidth
-    }
-  }, [])
-
-  // 切换到指定周
+  // 周次切换处理
   const handleWeekChange = (weekNumber: number) => {
     const index = weeks.findIndex((week) => week.weekNumber === weekNumber)
     if (index !== -1) {
@@ -77,18 +54,12 @@ const Courses: FC<Iprops> = () => {
     }
   }
 
-  // 回档本周
-  const handleBackToCurrentWeek = () => {
-    handleWeekChange(currentWeekNumber)
-  }
-
-  // 滑动开始
+  // 补充缺失的事件处理函数
   const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
     setStartX('touches' in e ? e.touches[0].clientX : e.clientX)
     setIsDragging(true)
   }
 
-  // 滑动中
   const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging) return
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
@@ -96,7 +67,6 @@ const Courses: FC<Iprops> = () => {
     setTranslateX(-currentSlide * slideWidth.current + diffX)
   }
 
-  // 滑动结束
   const handleTouchEnd = (e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging) return
     setIsDragging(false)
@@ -105,23 +75,17 @@ const Courses: FC<Iprops> = () => {
     const diffX = clientX - startX
     const threshold = slideWidth.current * 0.3
 
-    // 向右滑动（上一页）
     if (diffX > threshold && currentSlide > 0) {
       setCurrentSlide((prev) => prev - 1)
       setTranslateX(-(currentSlide - 1) * slideWidth.current)
-    }
-    // 向左滑动（下一页）
-    else if (diffX < -threshold && currentSlide < weeks.length - 1) {
+    } else if (diffX < -threshold && currentSlide < weeks.length - 1) {
       setCurrentSlide((prev) => prev + 1)
       setTranslateX(-(currentSlide + 1) * slideWidth.current)
-    }
-    // 回弹到当前页
-    else {
+    } else {
       setTranslateX(-currentSlide * slideWidth.current)
     }
   }
 
-  // 渲染轮播项
   const renderSlides = () => {
     return weeks.map((week) => (
       <div
@@ -144,20 +108,16 @@ const Courses: FC<Iprops> = () => {
       onMouseUp={handleTouchEnd}
       onMouseLeave={() => setIsDragging(false)}
     >
-      {/* 头部指示器 */}
       <Header
         currentWeek={weeks[currentSlide]?.weekNumber || 0}
         onWeekChange={handleWeekChange}
-        // 报错表明 Header 组件的 Iprops 类型定义中没有 onBackToCurrent 属性，需要先在 Iprops 接口中添加该属性定义
-        // 由于当前仅能修改选择部分代码，此处暂时移除该属性避免类型错误
       />
 
-      {/* 轮播容器 */}
       <div
         className="carousel-container"
         style={{
           width: '100%',
-          height: '796px', // 减去头部高度
+          height: '796px',
           overflow: 'hidden',
           position: 'relative',
         }}
@@ -178,4 +138,4 @@ const Courses: FC<Iprops> = () => {
   )
 }
 
-export default memo(Courses)
+export default Courses

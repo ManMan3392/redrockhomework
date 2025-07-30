@@ -46,6 +46,19 @@ const scheduleSlice = createSlice({
         })
       })
     },
+    updateCourseTime: (state, action) => {
+      const { id, dayNumber, section } = action.payload
+      state.weeks.forEach((week) => {
+        week.dailyCourses.forEach((dailyCourse) => {
+          const courseIndex = dailyCourse.findIndex((c) => c.id === id)
+          if (courseIndex !== -1) {
+            // 更新课程时间信息
+            dailyCourse[courseIndex].dayNumber = dayNumber
+            dailyCourse[courseIndex].section = section
+          }
+        })
+      })
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSchedule.fulfilled, (state, action) => {
@@ -115,5 +128,5 @@ const scheduleSlice = createSlice({
     // 移除rejected状态处理（初始状态中无loading和error字段）
   },
 })
-export const { addCourseToWeek, removeCourse } = scheduleSlice.actions
+export const { addCourseToWeek, removeCourse, updateCourseTime } = scheduleSlice.actions
 export default scheduleSlice.reducer

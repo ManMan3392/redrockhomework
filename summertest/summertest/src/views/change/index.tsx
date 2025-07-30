@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/store'
 import { addCourseToWeek } from '@/store/scheduleSlice'
 import Changepage from './c-cpns/changepage'
 import { todolist } from '@/assets/data/todo'
+import {updateChangeCourseTime} from '@/store/changeCourseSlice'
 import { courseNames } from '@/assets/data/coursesdetail'
 
 interface Iprops {
@@ -38,8 +39,15 @@ const Change: FC<Iprops> = () => {
       setRealtitleValue(target.name)
       // 设置inputValue为target的content属性
       setInputValue(target.content || '')
+      
+      // 新增：同步target的时间属性到Redux
+      dispatch(updateChangeCourseTime({
+        weeknumber: [target.weekNumber],
+        daynumber: [target.dayNumber],
+        section: [[target.section, target.section]] // 保持节次范围一致
+      }));
     }
-  }, [target]) // 仅在target变化时执行
+  }, [target, dispatch]); // 添加dispatch依赖
   
 
   const handleNextClick = () => {
@@ -64,7 +72,7 @@ const Change: FC<Iprops> = () => {
               weekNumber: week,
               dayNumber: day,
               section: sectionInfo[0],
-              cycle: sectionInfo[1],
+              cycle: sectionInfo[1] - sectionInfo[0],
               content: inputValue,
               courseName: '自定义',
             }

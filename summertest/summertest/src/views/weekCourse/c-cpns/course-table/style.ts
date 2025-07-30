@@ -37,8 +37,11 @@ export const TableWrapper = styled.div`
   }
 
   /* 课程单元格样式 */
-  .courseitem {
+  .course-item {
     width: 47px;
+    background: #fff;
+    touch-action: none; /* 禁用触摸默认行为 */
+    user-select: none; /* 防止文本选择 */
     margin-left: 8px;
     overflow: hidden;
     position: relative;
@@ -131,5 +134,33 @@ export const TableWrapper = styled.div`
     border-radius: 8px;
     width: 100%;
     height: 100%;
+  }
+
+  body.dragging-fixed {
+    overflow: hidden !important;
+    position: fixed !important;
+    height: 100vh !important;
+  }
+  .table_wrapper {
+    touch-action: none; // 仅在课程元素上设置
+    overflow: hidden; /* 防止内部滚动 */
+    position: relative;
+  }
+  
+  .course_item {
+    /* ... existing styles ... */
+    user-select: none; /* 禁止文本选择 */
+    touch-action: none; /* 禁止触摸操作 */
+  }
+  
+  .dragging_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: transparent;
   }
 `
