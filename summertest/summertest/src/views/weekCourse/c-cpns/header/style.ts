@@ -39,7 +39,13 @@ export const HeaderWrapper = styled.div`
     font-size: 24px;
     color: #333;
   }
-
+  .newstudents {
+    position: absolute;
+    top: 29px;
+    right: 145px;
+    width: 38px;
+    height: 37px;
+  }
   .back-to-today {
     padding: 6px 12px;
     height: 38px;
@@ -55,6 +61,7 @@ export const HeaderWrapper = styled.div`
     cursor: pointer;
     font-size: 15px;
     transition: background-color 0.2s;
+    z-index: 99999;
   }
 
   .back-to-today:hover {

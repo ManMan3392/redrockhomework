@@ -47,7 +47,18 @@ export const TableWrapper = styled.div`
     position: relative;
     background: #fff;
   }
-
+  .many-courses {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      right: 10px;
+      width: 10px;
+      height: 3px;
+      border-radius: 2px;
+      background-color: rgb(230, 149, 152);
+    }
+  }
   .has-courses {
     display: flex;
     align-items: flex-start;
@@ -69,10 +80,14 @@ export const TableWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
   }
-   .my-course {
+  .my-course {
     text-align: center !important;
     color: rgb(45, 55, 62) !important;
     background-image: url(${my_courses_bg}) !important;
+  }
+  .others-course {
+    background-color: rgb(224, 243, 253) !important;
+    color: rgb(93, 185, 239) !important;
   }
   .course-info:hover {
     background-color: #d2e3fc;
@@ -146,13 +161,13 @@ export const TableWrapper = styled.div`
     overflow: hidden; /* 防止内部滚动 */
     position: relative;
   }
-  
+
   .course_item {
     /* ... existing styles ... */
     user-select: none; /* 禁止文本选择 */
     touch-action: none; /* 禁止触摸操作 */
   }
-  
+
   .dragging_overlay {
     position: fixed;
     top: 0;

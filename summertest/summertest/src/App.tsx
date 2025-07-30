@@ -1,7 +1,6 @@
 import { Suspense, useEffect } from 'react'
 import { useRoutes } from 'react-router-dom'
 import routes from './router'
-import Courses from './views/course'
 import { useAppDispatch } from './store'
 import { fetchSchedule } from './store/scheduleSlice'
 

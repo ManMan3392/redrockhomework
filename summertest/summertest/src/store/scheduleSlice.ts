@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getSchedule } from '../service/scheduleApi'
-import type {
-  Course,
-  WeekCourse,
-} from '../service/types'
+import type { Course, WeekCourse } from '../service/types'
 
 // 修复异步Thunk，正确处理数据并返回
 export const fetchSchedule = createAsyncThunk(
@@ -25,6 +22,7 @@ const scheduleSlice = createSlice({
   name: 'schedule',
   initialState: {
     weeks: [] as WeekCourse[],
+    allCourses: [] as Course[][]  // 修改为二维数组
   },
   reducers: {
     addCourseToWeek: (state, action) => {
@@ -115,18 +113,29 @@ const scheduleSlice = createSlice({
         .sort((a, b) => a.weekNumber - b.weekNumber)
         .map((weekData) => ({
           weekNumber: weekData.weekNumber,
-          // 按节次排序并展平课程数组
           courses: weekData.dailyCourses
             .flat()
             .sort((a, b) => a.section - b.section),
-          // 确保每日课程按节次排序
           dailyCourses: weekData.dailyCourses.map((dayCourses) =>
-            dayCourses.sort((a, b) => a.section - b.section),
+            dayCourses.sort((a, b) => a.section - b.section)
           ),
         }))
+
+      // 修改allCourses数据处理逻辑
+      // 初始化一个包含7个空数组的二维数组，对应周一到周日
+      state.allCourses = Array.from({ length: 7 }, () => [])
+
+      // 遍历所有周和每天的课程，按星期索引分组
+      state.weeks.forEach(week => {
+        week.dailyCourses.forEach((dayCourses, dayIndex) => {
+          // 将每天的课程添加到对应星期的数组中
+          state.allCourses[dayIndex].push(...dayCourses)
+        })
+      })
     })
     // 移除rejected状态处理（初始状态中无loading和error字段）
   },
 })
-export const { addCourseToWeek, removeCourse, updateCourseTime } = scheduleSlice.actions
+export const { addCourseToWeek, removeCourse, updateCourseTime } =
+  scheduleSlice.actions
 export default scheduleSlice.reducer

@@ -1,11 +1,11 @@
 import type { ReactNode, FC } from 'react'
-import { memo, useState, useEffect, useRef } from 'react'
+import { memo, useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { TableWrapper } from './style'
 import type { Course } from '@/service/types'
 import no_course from '@/assets/img/no_course.png'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@/store'
-import { removeCourse,addCourseToWeek } from '@/store/scheduleSlice'
+import { removeCourse, addCourseToWeek } from '@/store/scheduleSlice'
 import {
   setDaynumber,
   setSection,
@@ -15,7 +15,7 @@ import { shallowEqual } from 'react-redux'
 
 interface Iprops {
   children?: ReactNode
-  setSelectedCourse: (course: Course | null) => void
+  setSelectedCourse: (course: Course[]) => void
   weeknumber: number
   isDetailVisible: boolean
   setIsDetailVisible: (visible: boolean) => void
@@ -27,15 +27,50 @@ const CourseTable: FC<Iprops> = ({
   setIsDetailVisible,
   isDetailVisible = false,
 }) => {
-  // 从Redux获取当前周数据
+  // 从Redux获取状态（使用shallowEqual确保引用稳定）
   const { weeks } = useAppSelector((state) => state.schedule, shallowEqual)
-  const currentWeek = weeks[weeknumber - 1]
-  const weekCourses = currentWeek?.dailyCourses || []
+  const { isShowStudents } = useAppSelector(
+    (state) => state.showStudents,
+    shallowEqual,
+  )
+  const { weeks: newStudentWeeks } = useAppSelector(
+    (state) => state.newstudents,
+    shallowEqual,
+  )
+
+  // 避免直接依赖currentWeek，改用weeknumber作为基础依赖
+  const currentWeek = useMemo(() => {
+    return weeks[weeknumber - 1] || { dailyCourses: [] }
+  }, [weeks, weeknumber])
+
+  // 稳定新同学课程数据引用
+  const newStudentWeek = useMemo(() => {
+    return (
+      newStudentWeeks?.find((w) => w.weekNumber === weeknumber) || {
+        dailyCourses: [],
+      }
+    )
+  }, [newStudentWeeks, weeknumber])
+
+  // 用useMemo稳定weekCourses引用，依赖改为基础类型和稳定引用
+  const weekCourses = useMemo(() => {
+    if (!currentWeek.dailyCourses) return []
+
+    return currentWeek.dailyCourses.map((dayCourses, dayIndex) => {
+      if (isShowStudents) {
+        const studentDayCourses = newStudentWeek.dailyCourses[dayIndex] || []
+        return [...dayCourses, ...studentDayCourses]
+      }
+      return dayCourses
+    })
+  }, [currentWeek.dailyCourses, isShowStudents, newStudentWeek.dailyCourses])
+
   const totalDays = 7
-  const allSections = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const allSections = useMemo(() => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [])
   const [activeBoxes, setActiveBoxes] = useState<Record<string, boolean>>({})
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
   interface ICourseGridItem {
     id: string
     course?: Course
@@ -45,12 +80,11 @@ const CourseTable: FC<Iprops> = ({
   }
   const [courseGridItems, setCourseGridItems] = useState<ICourseGridItem[]>([])
 
-  // 浮起的格子信息（新增了拖拽相关属性）
+  // 浮起的格子信息
   const [floatingBox, setFloatingBox] = useState<{
     section: number
     dayIndex: number
     isTop: boolean
-    // 拖拽相关
     isDragging: boolean
     startX: number
     startY: number
@@ -62,23 +96,32 @@ const CourseTable: FC<Iprops> = ({
   const pressTimer = useRef<NodeJS.Timeout | null>(null)
   const LONG_PRESS_DELAY = 500 // 长按判定时间(ms)
 
-  // 网格尺寸相关（用于计算拖拽位置）
+  // 网格尺寸相关
   const gridCellSize = useRef({
     width: 0,
     height: 0,
   })
   const tableRef = useRef<HTMLDivElement>(null)
+  const lastDragTime = useRef(0) // 用于拖拽防抖
 
-  
+  // 用useCallback稳定函数引用，避免每次渲染重建
+  const getCoursesForDay = useCallback(
+    (dayIndex: number, section: number) => {
+      const dayCourses = weekCourses[dayIndex] || []
+      return dayCourses.filter(
+        (course: Course | undefined) => course?.section === section,
+      )
+    },
+    [weekCourses],
+  )
 
-  // 计算所有课程的Grid布局信息
+  // 计算所有课程的Grid布局信息（优化依赖）
   useEffect(() => {
     const gridItems: ICourseGridItem[] = []
     const occupiedCells: Record<string, boolean> = {}
 
     allSections.forEach((section) => {
       weekCourses.forEach((_, dayIndex) => {
-        // 跳过已被占用的格子
         if (occupiedCells[`${section}-${dayIndex}`]) return
 
         if (section % 2 === 1) {
@@ -88,11 +131,8 @@ const CourseTable: FC<Iprops> = ({
           )
           const course = uniqueCourses[0]
 
-          // 计算跨节数量，默认2节
           const rowSpan =
-            course && typeof course.cycle === 'number'
-              ? course.cycle + 1
-              : 2
+            course && typeof course.cycle === 'number' ? course.cycle + 1 : 2
 
           // 标记被跨节占用的格子
           for (let i = 1; i < rowSpan; i++) {
@@ -111,9 +151,9 @@ const CourseTable: FC<Iprops> = ({
     })
 
     setCourseGridItems(gridItems)
-  }, [weekCourses, weeknumber])
+  }, [weekCourses, allSections, getCoursesForDay]) // 依赖稳定的回调函数
 
-  // 获取网格单元格尺寸（用于拖拽计算）
+  // 获取网格单元格尺寸（优化依赖）
   useEffect(() => {
     const getGridSize = () => {
       if (tableRef.current) {
@@ -122,24 +162,17 @@ const CourseTable: FC<Iprops> = ({
           const firstCell = gridCells[0] as HTMLElement
           gridCellSize.current = {
             width: firstCell.offsetWidth,
-            height: firstCell.offsetHeight / 2, // 因为每个格子包含上下两部分
+            height: firstCell.offsetHeight / 2,
           }
         }
       }
     }
 
-    // 初始化时获取尺寸
     getGridSize()
-
-    // 窗口大小变化时重新获取
-    window.addEventListener('resize', getGridSize)
-    return () => window.removeEventListener('resize', getGridSize)
-  }, [courseGridItems])
-
-  const getCoursesForDay = (dayIndex: number, section: number) => {
-    const dayCourses = weekCourses[dayIndex] || []
-    return dayCourses.filter((course: Course | undefined) => course?.section === section);
-  };
+    const resizeHandler = () => getGridSize()
+    window.addEventListener('resize', resizeHandler)
+    return () => window.removeEventListener('resize', resizeHandler)
+  }, [courseGridItems.length]) // 只依赖长度变化，避免引用变化触发
 
   const handleClick = (
     section: number,
@@ -164,116 +197,124 @@ const CourseTable: FC<Iprops> = ({
       dispatch(setDaynumber([dayIndex]))
       dispatch(setSection([[section, section]]))
     } else {
-      setActiveBoxes({
-        [boxKey]: true,
-      })
+      setActiveBoxes({ [boxKey]: true })
     }
   }
 
   // 开始长按检测
-  const startPress = (
-    section: number,
-    dayIndex: number,
-    isTop: boolean = true,
-  ) => {
-    // 只有自定义格子才触发长按效果
-    const courses = getCoursesForDay(dayIndex, section)
-    if (courses.length > 0 && courses[0].courseName !== '自定义') {
-      return
-    }
+  const startPress = useCallback(
+    (section: number, dayIndex: number, isTop: boolean = true) => {
+      const courses = getCoursesForDay(dayIndex, section)
+      if (courses.length > 0 && courses[0].courseName !== '自定义') {
+        return
+      }
 
-    pressTimer.current = setTimeout(() => {
-      // 初始化浮起盒子，包含拖拽相关属性
-      setFloatingBox({
-        section,
-        dayIndex,
-        isTop,
-        isDragging: false,
-        startX: 0,
-        startY: 0,
-        offsetX: 0,
-        offsetY: 0,
-      })
-    }, LONG_PRESS_DELAY)
-  }
+      pressTimer.current = setTimeout(() => {
+        setFloatingBox({
+          section,
+          dayIndex,
+          isTop,
+          isDragging: false,
+          startX: 0,
+          startY: 0,
+          offsetX: 0,
+          offsetY: 0,
+        })
+      }, LONG_PRESS_DELAY)
+    },
+    [getCoursesForDay],
+  )
 
   // 结束长按检测
-  const endPress = () => {
+  const endPress = useCallback(() => {
     if (pressTimer.current) {
       clearTimeout(pressTimer.current)
       pressTimer.current = null
     }
-  }
-  const getDragPosition = (e: React.MouseEvent | React.TouchEvent) => {
-    return e.type.startsWith('mouse')
-      ? {
-          clientX: (e as React.MouseEvent).clientX,
-          clientY: (e as React.MouseEvent).clientY,
-        }
-      : (e as React.TouchEvent).touches[0]
-  }
-  // 开始拖拽
-  const handleDragStart = (
-    e: React.MouseEvent | React.TouchEvent,
-    box: typeof floatingBox,
-  ) => {
-    if (!box) return
+  }, [])
 
-    // 记录初始位置
-    const startPos = getDragPosition(e)
-
-    setFloatingBox({
-      ...box,
-      isDragging: true,
-      startX: startPos.clientX,
-      startY: startPos.clientY,
-      offsetX: 0,
-      offsetY: 0,
-    })
-  };
-
-  // 拖拽中
-  const handleDragging = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!floatingBox || !floatingBox.isDragging) return
-    e.stopPropagation()
-
-    // 获取当前位置
-    const currentPos = getDragPosition(e)
-
-    // 计算偏移量
-    const offsetX = currentPos.clientX - floatingBox.startX
-    const offsetY = currentPos.clientY - floatingBox.startY
-
-    setFloatingBox((prev) =>
-      prev
+  const getDragPosition = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      return e.type.startsWith('mouse')
         ? {
-            ...prev,
-            offsetX,
-            offsetY,
+            clientX: (e as React.MouseEvent).clientX,
+            clientY: (e as React.MouseEvent).clientY,
           }
-        : null,
-    )
-  }
+        : (e as React.TouchEvent).touches[0]
+    },
+    [],
+  )
 
-  const handleDragEnd = () => {
-    if (!floatingBox || !floatingBox.isDragging) return;
+  // 开始拖拽
+  const handleDragStart = useCallback(
+    (e: React.MouseEvent | React.TouchEvent, box: typeof floatingBox) => {
+      if (!box) return
+
+      const startPos = getDragPosition(e)
+      setFloatingBox({
+        ...box,
+        isDragging: true,
+        startX: startPos.clientX,
+        startY: startPos.clientY,
+        offsetX: 0,
+        offsetY: 0,
+      })
+    },
+    [getDragPosition],
+  )
+
+  // 拖拽中（增加防抖）
+  const handleDragging = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (!floatingBox || !floatingBox.isDragging) return
+      e.stopPropagation()
+
+      // 防抖处理：限制60fps更新频率
+      const now = Date.now()
+      if (now - lastDragTime.current < 16) return
+      lastDragTime.current = now
+
+      const currentPos = getDragPosition(e)
+      const offsetX = currentPos.clientX - floatingBox.startX
+      const offsetY = currentPos.clientY - floatingBox.startY
+
+      setFloatingBox((prev) => (prev ? { ...prev, offsetX, offsetY } : null))
+    },
+    [floatingBox, getDragPosition],
+  )
+
+  const handleDragEnd = useCallback(() => {
+    if (!floatingBox || !floatingBox.isDragging) return
+
     const { width: cellWidth, height: cellHeight } = gridCellSize.current
-    const dayOffset = cellWidth ? Math.round(floatingBox.offsetX / cellWidth) : 0;
-    const sectionOffset = cellHeight ? Math.round(floatingBox.offsetY / cellHeight) : 0;
+    const dayOffset = cellWidth
+      ? Math.round(floatingBox.offsetX / cellWidth)
+      : 0
+    const sectionOffset = cellHeight
+      ? Math.round(floatingBox.offsetY / cellHeight)
+      : 0
 
-    // 计算新的位置索引
-    const newDayIndex = Math.max(0, Math.min(totalDays - 1, floatingBox.dayIndex + dayOffset));
-    const newSection = Math.max(1, Math.min(allSections.length, floatingBox.section + sectionOffset));
+    const newDayIndex = Math.max(
+      0,
+      Math.min(totalDays - 1, floatingBox.dayIndex + dayOffset),
+    )
+    const newSection = Math.max(
+      1,
+      Math.min(allSections.length, floatingBox.section + sectionOffset),
+    )
 
-    // 获取原课程信息
-    const originalCourses = getCoursesForDay(floatingBox.dayIndex, floatingBox.section);
-    const originalCourse = originalCourses.length > 0 ? originalCourses[0] : null;
+    const originalCourses = getCoursesForDay(
+      floatingBox.dayIndex,
+      floatingBox.section,
+    )
+    const originalCourse =
+      originalCourses.length > 0 ? originalCourses[0] : null
 
     if (originalCourse) {
       dispatch(removeCourse(originalCourse.id))
       const newCourse = {
         ...originalCourse,
-        id: `${originalCourse.id}_${Date.now()}`, 
+        id: `${originalCourse.id}_${Date.now()}`,
         dayNumber: newDayIndex,
         section: newSection,
       }
@@ -286,15 +327,23 @@ const CourseTable: FC<Iprops> = ({
         }),
       )
     }
-    setFloatingBox(null);
-  }
+    setFloatingBox(null)
+  }, [
+    floatingBox,
+    gridCellSize,
+    totalDays,
+    allSections,
+    getCoursesForDay,
+    dispatch,
+    weeknumber,
+  ])
 
-  const handleTableClick = () => {
+  const handleTableClick = useCallback(() => {
     setFloatingBox(null)
     if (isDetailVisible) {
       setIsDetailVisible(false)
     }
-  }
+  }, [isDetailVisible, setIsDetailVisible])
 
   return (
     <TableWrapper
@@ -317,24 +366,25 @@ const CourseTable: FC<Iprops> = ({
 
       {/* 课程网格区域 */}
       <div className="course-grid">
-        
         {courseGridItems.map((item) => {
           const { course, section, dayIndex, rowSpan, id } = item
           const courses = getCoursesForDay(dayIndex, section)
-          // 判断当前格子是否是浮起状态
           const isFloating =
             floatingBox &&
             floatingBox.section === section &&
             floatingBox.dayIndex === dayIndex
-
           return (
             <div
               key={id}
-              className={`courseitem ${courses.length > 0 ? 'has-courses' : ''} ${isFloating ? 'floating' : ''}`}
+              className={`courseitem
+                 ${courses.length > 0 ? 'has-courses' : ''}
+                  ${isFloating ? 'floating' : ''}
+                  ${courses.length > 1 ? 'many-courses' : ''}
+                  `}
               style={{
                 gridRow: `${section} / span ${rowSpan}`,
                 gridColumn: `${dayIndex + 1}`,
-                zIndex: isFloating ? 20 : 1, // 浮起的格子在遮罩层上方
+                zIndex: isFloating ? 20 : 1,
                 transform: isFloating
                   ? `translate(${floatingBox.offsetX}px, ${floatingBox.offsetY}px) translateY(-5px)`
                   : 'translateY(0)',
@@ -348,16 +398,15 @@ const CourseTable: FC<Iprops> = ({
                 <div
                   key={course.id}
                   className={`course-info section-${section} 
-                  ${course.courseName === '自定义' ? 'my-course' : ''}`}
-                  onClick={(e) => {
-                    // e.stopPropagation()
-                    console.log(course)
-                    setSelectedCourse(course)
+                  ${course.courseName === '自定义' ? 'my-course' : ''}
+                  ${course.courseName === 'others' ? 'others-course' : ''}
+                  `}
+                  onClick={() => {
+                    setSelectedCourse(courses)
                     setIsDetailVisible(true)
                   }}
                   onMouseDown={(e) => {
                     if (course.courseName === '自定义') {
-                      // e.stopPropagation()
                       if (isFloating) {
                         handleDragStart(e, floatingBox)
                       } else {
@@ -365,12 +414,7 @@ const CourseTable: FC<Iprops> = ({
                       }
                     }
                   }}
-                  onMouseUp={(e) => {
-                    if (course.courseName === '自定义') {
-                      // e.stopPropagation()
-                      endPress()
-                    }
-                  }}
+                  onMouseUp={endPress}
                   onMouseLeave={() => {
                     if (
                       course.courseName === '自定义' &&
@@ -381,7 +425,6 @@ const CourseTable: FC<Iprops> = ({
                   }}
                   onTouchStart={(e) => {
                     if (course.courseName === '自定义') {
-                      // e.stopPropagation()
                       if (isFloating) {
                         handleDragStart(e, floatingBox)
                       } else {
@@ -389,12 +432,7 @@ const CourseTable: FC<Iprops> = ({
                       }
                     }
                   }}
-                  onTouchEnd={(e) => {
-                    if (course.courseName === '自定义') {
-                      // e.stopPropagation()
-                      endPress()
-                    }
-                  }}
+                  onTouchEnd={endPress}
                 >
                   <div className="course-name">{course.name}</div>
                   <div className="course-place">{course.place}</div>
@@ -408,11 +446,7 @@ const CourseTable: FC<Iprops> = ({
                         ? `url(${no_course}) -273px -325px`
                         : '',
                     }}
-                    onClick={(e) => {
-                      // e.stopPropagation()
-                      handleClick(section, dayIndex)
-                    }}
-                    
+                    onClick={() => handleClick(section, dayIndex)}
                   ></div>
                   <div
                     className="course-bottom"
@@ -423,11 +457,7 @@ const CourseTable: FC<Iprops> = ({
                         ? `url(${no_course}) -273px -325px`
                         : '',
                     }}
-                    onClick={(e) => {
-                      // e.stopPropagation()
-                      handleClick(section + 1, dayIndex, false)
-                    }}
-                   
+                    onClick={() => handleClick(section + 1, dayIndex, false)}
                   ></div>
                 </div>
               )}

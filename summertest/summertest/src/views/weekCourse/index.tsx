@@ -10,21 +10,21 @@ interface Props {
 }
 
 const CourseSchedule: FC<Props> = ({ weeknumber }) => {
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+  const [selectedCourse, setSelectedCourse] = useState<Course[]>([])
   const [isDetailVisible, setIsDetailVisible] = useState(false)
 
   return (
     <WeekWrapper>
       <DateHeader weeknumber={weeknumber} />
       <CourseTable
-        key={weeknumber} 
+        key={weeknumber}
         weeknumber={weeknumber}
         setSelectedCourse={setSelectedCourse}
         setIsDetailVisible={setIsDetailVisible}
         isDetailVisible={isDetailVisible}
       />
       <Detail
-        selectedCourse={selectedCourse as Course}
+        selectedCourse={selectedCourse}
         isDetailVisible={isDetailVisible}
         setIsDetailVisible={setIsDetailVisible}
       />

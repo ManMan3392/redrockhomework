@@ -2,7 +2,6 @@ import { FC, useState, useEffect, useRef } from 'react'
 import { CourseWrapper } from './style'
 import { useAppSelector } from '@/store'
 import { shallowEqual } from 'react-redux'
-import { getCurrentWeek } from '@/utils/formatDate'
 import Header from '../weekCourse/c-cpns/header'
 import CourseSchedule from '../weekCourse'
 import { useLocation } from 'react-router-dom'
@@ -45,7 +44,6 @@ const Courses: FC = () => {
     }
   }, [])
 
-  // 周次切换处理
   const handleWeekChange = (weekNumber: number) => {
     const index = weeks.findIndex((week) => week.weekNumber === weekNumber)
     if (index !== -1) {
@@ -54,7 +52,6 @@ const Courses: FC = () => {
     }
   }
 
-  // 补充缺失的事件处理函数
   const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
     setStartX('touches' in e ? e.touches[0].clientX : e.clientX)
     setIsDragging(true)
@@ -131,6 +128,12 @@ const Courses: FC = () => {
             transition: isDragging ? 'none' : 'transform 0.3s ease-out',
           }}
         >
+          {/* <div
+            key={-1}
+            style={{ minWidth: `${slideWidth.current}px`, height: '769px' }}
+          >
+            <CourseSchedule weeknumber={-1} />
+          </div> */}
           {renderSlides()}
         </div>
       </div>
