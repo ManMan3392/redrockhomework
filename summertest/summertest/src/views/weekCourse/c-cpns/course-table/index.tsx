@@ -459,6 +459,10 @@ console.log(originalCourse)
                         ? `url(${no_course}) -273px -325px`
                         : '',
                     }}
+                    onClick={(e) => {
+                      // e.stopPropagation()
+                      handleClick(section, dayIndex)
+                    }}
                     
                   ></div>
                   <div
