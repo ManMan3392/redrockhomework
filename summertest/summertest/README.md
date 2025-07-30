@@ -1,46 +1,72 @@
-# Getting Started with Create React App
+## 掌上重邮课表小项目
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+本项目基于 React 生态开发，技术栈包括：
 
-## Available Scripts
+- 核心框架：React + TypeScript
+- 状态管理：Redux
+- 样式方案：Styled Components + Less
+- 数据交互：Axios + Mock.js
+- 工程化：Webpack + ESLint + Prettier
 
-In the project directory, you can run:
+基本实现课表页面出场拖拽动画，课表页面，自行对活动进行增删改查，回到本周功能，支持对活动拖拽修改时间，关联同学。（已完成考核要求基础功能和部分进阶功能）
 
-### `npm start`
+## 以下是具体功能使用方法
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<font size=1>省流版：掌邮咋用这个就咋用，上面提到的已实现功能皆是一比一（尽量）复刻。</font>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+由于首页未开发，我在背景放了一张图片，所以请打开iphone XR模式以获得最佳体验效果，其他大小图片会被拉扯不能发挥出最完美的样式。
 
-### `npm test`
+### 唤出课表与收起
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+点击底部“享受假期吧~”卡片，会弹出课表，收起卡片。拖拽课表顶部蓝色按钮超过自身一般距离就可收起，距离过小会回弹到顶部。
+<font size=1>此处本来应该是同一张卡片修改内容，但由于首页不在要求内，所以我也放了一张图片</font>
 
-### `npm run build`
+### 查看课表
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 左右滑动页面可以改变周数看到不同周的课表。
+- 点击课程可以弹出详情卡片展示标题，上课地点，老师和周期，时间，课程类型信息，点击详情卡片外区域收起卡片。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 增加活动
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 点击空白处可唤起增加活动按钮，点击此按钮可以进入增加活动页，点击其他空白处在其他地方唤起激活按钮。
+- 长按触发可拖动状态，可改变按钮长度而改变当前活动的节数
+- 添加页面第一页可以在输入框中输入你的标题，也可以从下方按钮中选择。
+- 确定后点击下方箭头跳转到下一个修改页面，输入值为空的话会弹出不能为空的提醒。
+  <font size=1>到第二页时有动画效果，标题右滑入，选择按钮左滑出</font>
+- 自行添加活动内容，也可以不添加
+- 点击按钮到第三页
+  <font size=1>此处也有动画，标题字样滑出，自拟的标题放大</font>
+- 第三页内可以点击标题修改，也可以在输入框修改内容，点击第一行周数选择，弹出选择周数卡片，可多选，点击卡片外部取消选择，点击确定按钮确定周数。
+- 点击第二行选择器可选择课程时间，滑动选择，点击空白处取消选择，点击确定修改时间。
+  <font size=1>此处选择器有立体效果，所以我做了3d让盒子飘起来，盒子顶部和底部有蒙版，实现淡出效果</font>
+- 点击第二行加号可添加节数，在有多个周数和节数的情况下，会给每个选择的周添加所有节数的活动。
+- 点击箭头保存添加活动信息并退出。
+- 左上角退出箭头会直接取消修改退出修改页面
+  <font size=1>没有回退上一页功能，我想应该是掌邮考虑标题和内容及时间都可以在第三页修改,退出时若课表不对，点击或滑动一下页面出发页面重新渲染即可</font>
+- 自行增加的活动同样可点击查看详情。
 
-### `npm run eject`
+### 修改活动
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 详情页面右上角修改按钮点击后跳转到修改页面（第三页）可以随便修改，按钮功能上面已详讲，不再赘述。
+  <font size=1>功能相同样式略有不同</font>
+- 长按自定义的活动可以触发拖动，此时拖动活动到其他位置可以修改活动时间，点击其他位置取消拖动。
+  <font size=1>若不慎触发浏览器自带选择页面，请点击手机界面外取消浏览器弹出的页面，回来仍可继续拖动</font>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 删除活动
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- 详情页面点击删除按钮可以删除活动
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 关联同学
 
-## Learn More
+- 点击右上角小人，可关联同学课表（蓝色）
+  <font size=1>如果没有反应挪一点点再点，小人是截图，按钮位置不完全准</font>
+- 点击课程仍可查看详情，如果同学课表与本人课表重合，课程右上角有小标提醒，此时点击详情可以弹出轮播图详情卡片，滑动翻页，或者点击指示器翻页
+- 两个小人点击可以取消关联状态
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 回到本周按钮
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 当前时间会跳转到整学期页面，可在代码里修改当前时间给一个在范围内的时间可以回到本周
+
+### 整学期
+
+- 第一周往前翻一页或者在正常时间点击回到本周按钮，功能与前面重复，不再赘述
