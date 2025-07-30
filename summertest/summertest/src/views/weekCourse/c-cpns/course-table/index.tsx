@@ -5,7 +5,7 @@ import type { Course } from '@/service/types'
 import no_course from '@/assets/img/no_course.png'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@/store'
-import { updateCourseTime, removeCourse,addCourseToWeek } from '@/store/scheduleSlice'
+import { removeCourse,addCourseToWeek } from '@/store/scheduleSlice'
 import {
   setDaynumber,
   setSection,
@@ -31,18 +31,19 @@ const CourseTable: FC<Iprops> = ({
   const { weeks } = useAppSelector((state) => state.schedule, shallowEqual)
   const currentWeek = weeks[weeknumber - 1]
   const weekCourses = currentWeek?.dailyCourses || []
-  const totalDays = weekCourses.length // 一周的天数
+  const totalDays = 7
   const allSections = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [activeBoxes, setActiveBoxes] = useState<Record<string, boolean>>({})
-  const [courseGridItems, setCourseGridItems] = useState<
-    Array<{
-      id: string
-      course?: Course
-      section: number
-      dayIndex: number
-      rowSpan: number
-    }>
-  >([])
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  interface ICourseGridItem {
+    id: string
+    course?: Course
+    section: number
+    dayIndex: number
+    rowSpan: number
+  }
+  const [courseGridItems, setCourseGridItems] = useState<ICourseGridItem[]>([])
 
   // 浮起的格子信息（新增了拖拽相关属性）
   const [floatingBox, setFloatingBox] = useState<{
@@ -68,20 +69,11 @@ const CourseTable: FC<Iprops> = ({
   })
   const tableRef = useRef<HTMLDivElement>(null)
 
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  
 
   // 计算所有课程的Grid布局信息
   useEffect(() => {
-    const gridItems: Array<{
-      id: string
-      course?: Course
-      section: number
-      dayIndex: number
-      rowSpan: number
-    }> = []
-
-    // 标记已被跨节课程占用的格子
+    const gridItems: ICourseGridItem[] = []
     const occupiedCells: Record<string, boolean> = {}
 
     allSections.forEach((section) => {
@@ -145,8 +137,7 @@ const CourseTable: FC<Iprops> = ({
   }, [courseGridItems])
 
   const getCoursesForDay = (dayIndex: number, section: number) => {
-    const dayCourses = weekCourses[dayIndex] || [];
-    // 添加对undefined课程的过滤，并使用可选链操作符
+    const dayCourses = weekCourses[dayIndex] || []
     return dayCourses.filter((course: Course | undefined) => course?.section === section);
   };
 
@@ -155,7 +146,6 @@ const CourseTable: FC<Iprops> = ({
     dayIndex: number,
     isTop: boolean = true,
   ) => {
-    // 如果有浮起的格子，先取消浮起状态
     if (floatingBox) {
       setFloatingBox(null)
       return
@@ -214,7 +204,14 @@ const CourseTable: FC<Iprops> = ({
       pressTimer.current = null
     }
   }
-
+  const getDragPosition = (e: React.MouseEvent | React.TouchEvent) => {
+    return e.type.startsWith('mouse')
+      ? {
+          clientX: (e as React.MouseEvent).clientX,
+          clientY: (e as React.MouseEvent).clientY,
+        }
+      : (e as React.TouchEvent).touches[0]
+  }
   // 开始拖拽
   const handleDragStart = (
     e: React.MouseEvent | React.TouchEvent,
@@ -222,15 +219,8 @@ const CourseTable: FC<Iprops> = ({
   ) => {
     if (!box) return
 
-    // e.stopPropagation()
-
     // 记录初始位置
-    const startPos = e.type.startsWith('mouse')
-      ? {
-          clientX: (e as React.MouseEvent).clientX,
-          clientY: (e as React.MouseEvent).clientY,
-        }
-      : (e as React.TouchEvent).touches[0]
+    const startPos = getDragPosition(e)
 
     setFloatingBox({
       ...box,
@@ -240,28 +230,15 @@ const CourseTable: FC<Iprops> = ({
       offsetX: 0,
       offsetY: 0,
     })
-
-    // 打印拖拽开始时的课程数据
-    console.log('拖拽开始 - 课程数据:', {
-      section: box.section,
-      daytime: box.dayIndex, // dayIndex从0开始，daytime从1开始
-      weeknumber: weeknumber
-    });
   };
 
   // 拖拽中
   const handleDragging = (e: React.MouseEvent | React.TouchEvent) => {
     if (!floatingBox || !floatingBox.isDragging) return
-
     e.stopPropagation()
 
     // 获取当前位置
-    const currentPos = e.type.startsWith('mouse')
-      ? {
-          clientX: (e as React.MouseEvent).clientX,
-          clientY: (e as React.MouseEvent).clientY,
-        }
-      : (e as React.TouchEvent).touches[0]
+    const currentPos = getDragPosition(e)
 
     // 计算偏移量
     const offsetX = currentPos.clientX - floatingBox.startX
@@ -278,16 +255,9 @@ const CourseTable: FC<Iprops> = ({
     )
   }
 
-  // 结束拖拽 - 重点优化了此部分的位置计算逻辑
-  const handleDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleDragEnd = () => {
     if (!floatingBox || !floatingBox.isDragging) return;
-
-    // e.stopPropagation();
-
-    // 获取网格单元格尺寸
-    const { width: cellWidth, height: cellHeight } = gridCellSize.current;
-
-    // 计算拖拽偏移量相当于多少个单元格
+    const { width: cellWidth, height: cellHeight } = gridCellSize.current
     const dayOffset = cellWidth ? Math.round(floatingBox.offsetX / cellWidth) : 0;
     const sectionOffset = cellHeight ? Math.round(floatingBox.offsetY / cellHeight) : 0;
 
@@ -295,51 +265,30 @@ const CourseTable: FC<Iprops> = ({
     const newDayIndex = Math.max(0, Math.min(totalDays - 1, floatingBox.dayIndex + dayOffset));
     const newSection = Math.max(1, Math.min(allSections.length, floatingBox.section + sectionOffset));
 
-    // 转换为实际业务中使用的daynumber（从1开始）和section
-    const daynumber = newDayIndex;
-    const targetSection = newSection;
-
     // 获取原课程信息
     const originalCourses = getCoursesForDay(floatingBox.dayIndex, floatingBox.section);
     const originalCourse = originalCourses.length > 0 ? originalCourses[0] : null;
 
     if (originalCourse) {
-      // 删除原课程
-      dispatch(removeCourse(originalCourse.id));
-console.log(originalCourse)
-      // 创建新课程（复制原课程信息并更新位置）
+      dispatch(removeCourse(originalCourse.id))
       const newCourse = {
         ...originalCourse,
-        id: `${originalCourse.id}_${Date.now()}`, // 生成新ID避免冲突
-        dayNumber: daynumber,
-        section: targetSection,
+        id: `${originalCourse.id}_${Date.now()}`, 
+        dayNumber: newDayIndex,
+        section: newSection,
       }
 
-      // 添加新课程到仓库
       dispatch(
         addCourseToWeek({
           weekNumber: weeknumber,
-          dayNumber: daynumber,
+          dayNumber: newDayIndex,
           course: newCourse,
         }),
       )
-
-      // 打印拖拽结束时的课程数据
-      console.log(`课程已移动：从第${floatingBox.dayIndex + 1}天${floatingBox.section}节移动到第${daynumber}天${targetSection}节`);
-      console.log('拖拽课程数据:', {
-        section: originalCourse.section,
-        daytime: originalCourse.dayNumber,
-        weeknumber: originalCourse.weekNumber,
-        newSection: targetSection,
-        newDaytime: daynumber
-      });
     }
-
-    // 重置拖拽状态
     setFloatingBox(null);
-  };
+  }
 
-  // 点击其他区域取消浮起状态
   const handleTableClick = () => {
     setFloatingBox(null)
     if (isDetailVisible) {
