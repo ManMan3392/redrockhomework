@@ -36,8 +36,8 @@ export const DetailWrapper = styled.div`
     .buttons {
       position: absolute;
       display: flex;
-      top: 18px;
-      right: 18px;
+      top: -3px;
+      right: -11px;
       height: 50px;
       width: 180px;
       z-index: 99;
@@ -87,6 +87,7 @@ export const DetailWrapper = styled.div`
     .course-detail {
       margin: 18px;
       width: 378px;
+      position: relative;
     }
 
     .course-detail h3 {

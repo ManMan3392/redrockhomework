@@ -19,7 +19,6 @@ const ChangeBar: FC<Iprops> = ({  items, choose,
   const [dragOffset, setDragOffset] = useState(0)
   const dispatch = useAppDispatch()
   
-
   // 配置参数
   const BOX_HEIGHT = 63
   const CONTAINER_HEIGHT = 244
@@ -79,7 +78,6 @@ const ChangeBar: FC<Iprops> = ({  items, choose,
           {items.map((item, index) => {
             const offset = index - activeIndex
             const rotateAngle = offset * ROTATION_STEP
-
             // Y轴计算完全保留原始逻辑
             let translateY =
               CONTAINER_HEIGHT / 2 - BOX_HEIGHT / 2 + offset * POSITION_STEP
@@ -119,12 +117,6 @@ const ChangeBar: FC<Iprops> = ({  items, choose,
           })}
         </div>
 
-        {/* <div className="button" onClick={() => {
-          onSelect([activeIndex], type, isPush)
-          console.log(type)
-        }}>
-          确定
-        </div> */}
       </ChangeBarWrapper>
     )
   // 添加监听 activeIndex 变化的副作用

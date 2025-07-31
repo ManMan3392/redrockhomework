@@ -443,7 +443,6 @@ const CourseTable: FC<Iprops> = ({
                   onClick={() => {
                     setSelectedCourse(courses)
                     setIsDetailVisible(true)
-                    console.log(course)
                   }}
                   onMouseDown={(e) => {
                     if (course.courseName === '自定义') {

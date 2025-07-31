@@ -18,7 +18,6 @@ const Detail: FC<Iprops> = (props) => {
   const { selectedCourse, isDetailVisible, setIsDetailVisible } = props
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  // 新增：轮播相关状态
   const [currentIndex, setCurrentIndex] = useState(0)
   const startX = useRef(0)
   const isDragging = useRef(false)
