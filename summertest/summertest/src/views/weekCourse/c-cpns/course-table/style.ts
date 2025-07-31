@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import my_courses_bg from '@/assets/img/my_courses_bg.png'
-
+import activ_bg from '@/assets/img/image.png'
 
 
 export const TableWrapper = styled.div`
@@ -138,14 +138,30 @@ export const TableWrapper = styled.div`
     font-size: 14px;
     box-sizing: border-box;
     height: 100%;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-
+  .active {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      left: 0px;
+      height: var(--stretched-height, 58px);
+      border-radius: 8px;
+      /* background-color: grey; */
+      background: url(${activ_bg}) no-repeat;
+      background-position: top center;
+      background-size: 100% 100%;
+      transition: height 0.1s ease;
+  
+    }
+  }
   .course-top,
   .course-bottom {
+    position: relative;
     border-radius: 8px;
     width: 100%;
     height: 100%;

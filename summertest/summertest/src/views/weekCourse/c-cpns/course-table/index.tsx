@@ -27,6 +27,8 @@ const CourseTable: FC<Iprops> = ({
   setIsDetailVisible,
   isDetailVisible = false,
 }) => {
+  const [stretchedHeight, setStretchedHeight] = useState<number | null>(null)
+  const [newsectionend, setNewsectionend] = useState(0)
   // 从Redux获取状态（使用shallowEqual确保引用稳定）
   const { weeks } = useAppSelector((state) => state.schedule, shallowEqual)
   const { isShowStudents } = useAppSelector(
@@ -89,7 +91,9 @@ const CourseTable: FC<Iprops> = ({
     startX: number
     startY: number
     offsetX: number
-    offsetY: number
+    offsetY: number,
+    initialHeight: number,
+    isEmptyActiveBox: boolean,
   } | null>(null)
 
   // 长按相关变量
@@ -195,7 +199,7 @@ const CourseTable: FC<Iprops> = ({
       })
       dispatch(setWeeknumber([weeknumber]))
       dispatch(setDaynumber([dayIndex]))
-      dispatch(setSection([[section, section]]))
+      dispatch(setSection([[section, newsectionend]]))
     } else {
       setActiveBoxes({ [boxKey]: true })
     }
@@ -203,11 +207,7 @@ const CourseTable: FC<Iprops> = ({
 
   // 开始长按检测
   const startPress = useCallback(
-    (section: number, dayIndex: number, isTop: boolean = true) => {
-      const courses = getCoursesForDay(dayIndex, section)
-      if (courses.length > 0 && courses[0].courseName !== '自定义') {
-        return
-      }
+    (section: number, dayIndex: number, isTop: boolean = true,hasCourse:boolean = true) => {
 
       pressTimer.current = setTimeout(() => {
         setFloatingBox({
@@ -219,6 +219,8 @@ const CourseTable: FC<Iprops> = ({
           startY: 0,
           offsetX: 0,
           offsetY: 0,
+          initialHeight: hasCourse ? 0 : 58,
+          isEmptyActiveBox: !hasCourse,
         })
       }, LONG_PRESS_DELAY)
     },
@@ -247,9 +249,17 @@ const CourseTable: FC<Iprops> = ({
 
   // 开始拖拽
   const handleDragStart = useCallback(
-    (e: React.MouseEvent | React.TouchEvent, box: typeof floatingBox) => {
+    (
+      e: React.MouseEvent | React.TouchEvent,
+      box: typeof floatingBox,
+      hasCourse: boolean = true,
+    ) => {
       if (!box) return
-
+      const isEmptyActiveBox =
+        !hasCourse &&
+        activeBoxes[
+          `${box.section}-${box.dayIndex}-${box.isTop ? 'top' : 'bottom'}`
+        ]
       const startPos = getDragPosition(e)
       setFloatingBox({
         ...box,
@@ -258,9 +268,14 @@ const CourseTable: FC<Iprops> = ({
         startY: startPos.clientY,
         offsetX: 0,
         offsetY: 0,
+        isEmptyActiveBox, // 记录是否为无课程激活盒子
+        initialHeight: isEmptyActiveBox ? 58 : 0,
       })
+      if (isEmptyActiveBox) {
+        setStretchedHeight(58)
+      }
     },
-    [getDragPosition],
+    [getDragPosition, activeBoxes],
   )
 
   // 拖拽中（增加防抖）
@@ -277,55 +292,79 @@ const CourseTable: FC<Iprops> = ({
       const currentPos = getDragPosition(e)
       const offsetX = currentPos.clientX - floatingBox.startX
       const offsetY = currentPos.clientY - floatingBox.startY
-
-      setFloatingBox((prev) => (prev ? { ...prev, offsetX, offsetY } : null))
+      if (floatingBox.isEmptyActiveBox) {
+        // 仅在向下拖拽时增加高度
+        const newHeight = Math.max(
+          floatingBox.initialHeight,
+          floatingBox.initialHeight + offsetY,
+        )
+        setStretchedHeight(newHeight)
+      } else setFloatingBox((prev) => (prev ? { ...prev, offsetX, offsetY } : null))
     },
     [floatingBox, getDragPosition],
   )
 
   const handleDragEnd = useCallback(() => {
     if (!floatingBox || !floatingBox.isDragging) return
+    if (!floatingBox.isEmptyActiveBox) {
+      console.log(1)
+      const { width: cellWidth, height: cellHeight } = gridCellSize.current
+      const dayOffset = cellWidth
+        ? Math.round(floatingBox.offsetX / cellWidth)
+        : 0
+      const sectionOffset = cellHeight
+        ? Math.round(floatingBox.offsetY / cellHeight)
+        : 0
 
-    const { width: cellWidth, height: cellHeight } = gridCellSize.current
-    const dayOffset = cellWidth
-      ? Math.round(floatingBox.offsetX / cellWidth)
-      : 0
-    const sectionOffset = cellHeight
-      ? Math.round(floatingBox.offsetY / cellHeight)
-      : 0
-
-    const newDayIndex = Math.max(
-      0,
-      Math.min(totalDays - 1, floatingBox.dayIndex + dayOffset),
-    )
-    const newSection = Math.max(
-      1,
-      Math.min(allSections.length, floatingBox.section + sectionOffset),
-    )
-
-    const originalCourses = getCoursesForDay(
-      floatingBox.dayIndex,
-      floatingBox.section,
-    )
-    const originalCourse =
-      originalCourses.length > 0 ? originalCourses[0] : null
-
-    if (originalCourse) {
-      dispatch(removeCourse(originalCourse.id))
-      const newCourse = {
-        ...originalCourse,
-        id: `${originalCourse.id}_${Date.now()}`,
-        dayNumber: newDayIndex,
-        section: newSection,
-      }
-
-      dispatch(
-        addCourseToWeek({
-          weekNumber: weeknumber,
-          dayNumber: newDayIndex,
-          course: newCourse,
-        }),
+      const newDayIndex = Math.max(
+        0,
+        Math.min(totalDays - 1, floatingBox.dayIndex + dayOffset),
       )
+      const newSection = Math.max(
+        1,
+        Math.min(allSections.length, floatingBox.section + sectionOffset),
+      )
+
+      const originalCourses = getCoursesForDay(
+        floatingBox.dayIndex,
+        floatingBox.section,
+      )
+      const originalCourse =
+        originalCourses.length > 0 ? originalCourses[0] : null
+
+      if (originalCourse) {
+        dispatch(removeCourse(originalCourse.id))
+        const newCourse = {
+          ...originalCourse,
+          id: `${originalCourse.id}_${Date.now()}`,
+          dayNumber: newDayIndex,
+          section: newSection,
+        }
+
+        dispatch(
+          addCourseToWeek({
+            weekNumber: weeknumber,
+            dayNumber: newDayIndex,
+            course: newCourse,
+          }),
+        )
+      }
+    }
+    else {
+      const { height: cellHeight } = gridCellSize.current
+      // 计算拉伸高度对应的节数 (假设stretchedHeight已定义)
+      const heightInCells = cellHeight
+        ? Math.round(stretchedHeight as number * 2 / cellHeight)
+        : 1
+      console.log(heightInCells)
+      // 计算底部到达的节数
+      const bottomSection = Math.min(
+        allSections.length,
+        floatingBox.section + heightInCells - 1,
+      )
+      // 传递起始节数和结束节数
+      setNewsectionend(bottomSection)
+      console.log(newsectionend)
     }
     setFloatingBox(null)
   }, [
@@ -404,6 +443,7 @@ const CourseTable: FC<Iprops> = ({
                   onClick={() => {
                     setSelectedCourse(courses)
                     setIsDetailVisible(true)
+                    console.log(course)
                   }}
                   onMouseDown={(e) => {
                     if (course.courseName === '自定义') {
@@ -440,24 +480,55 @@ const CourseTable: FC<Iprops> = ({
               ) : (
                 <div className="no-course">
                   <div
-                    className="course-top"
+                    className={`course-top ${activeBoxes[`${section}-${dayIndex}-top`] ? 'active' : ''}`}
                     style={{
                       background: activeBoxes[`${section}-${dayIndex}-top`]
                         ? `url(${no_course}) -273px -325px`
                         : '',
+                      ...(activeBoxes[`${section}-${dayIndex}-top`] && stretchedHeight
+                        ? { '--stretched-height': `${stretchedHeight}px` }
+                        : {})
                     }}
                     onClick={() => handleClick(section, dayIndex)}
+                    onTouchStart={(e) => {
+                      if (activeBoxes[`${section}-${dayIndex}-top`]) {
+                        if (isFloating) {
+                          handleDragStart(e, floatingBox, false)
+                        } else {
+                          startPress(section, dayIndex)
+                        }
+                      }
+                    }}
+                    onTouchEnd={endPress}
                   ></div>
                   <div
-                    className="course-bottom"
+                    className={`course-bottom ${
+                      activeBoxes[`${section + 1}-${dayIndex}-bottom`]
+                        ? 'active'
+                        : ''
+                    }`}
                     style={{
                       background: activeBoxes[
                         `${section + 1}-${dayIndex}-bottom`
                       ]
                         ? `url(${no_course}) -273px -325px`
                         : '',
+                      ...(activeBoxes[`${section + 1}-${dayIndex}-bottom`] &&
+                      stretchedHeight
+                        ? { '--stretched-height': `${stretchedHeight}px` }
+                        : {}),
                     }}
                     onClick={() => handleClick(section + 1, dayIndex, false)}
+                    onTouchStart={(e) => {
+                      if (activeBoxes[`${section + 1}-${dayIndex}-bottom`]) {
+                        if (isFloating) {
+                          handleDragStart(e, floatingBox, false)
+                        } else {
+                          startPress(section + 1, dayIndex)
+                        }
+                      }
+                    }}
+                    onTouchEnd={endPress}
                   ></div>
                 </div>
               )}
