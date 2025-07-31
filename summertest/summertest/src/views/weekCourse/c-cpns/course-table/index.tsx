@@ -30,23 +30,33 @@ const CourseTable: FC<Iprops> = ({
   const [stretchedHeight, setStretchedHeight] = useState<number | null>(null)
   const [newsectionend, setNewsectionend] = useState(0)
   // 从Redux获取状态（使用shallowEqual确保引用稳定）
-  const { weeks } = useAppSelector((state) => state.schedule, shallowEqual)
+  const { weeks, allCourses } = useAppSelector((state) => state.schedule, shallowEqual)
   const { isShowStudents } = useAppSelector(
     (state) => state.showStudents,
     shallowEqual,
   )
-  const { weeks: newStudentWeeks } = useAppSelector(
+  const { weeks: newStudentWeeks,allCourses:newStudentAllCourses } = useAppSelector(
     (state) => state.newstudents,
     shallowEqual,
   )
 
   // 避免直接依赖currentWeek，改用weeknumber作为基础依赖
   const currentWeek = useMemo(() => {
+    if (weeknumber === -1) {
+      return {
+        dailyCourses: allCourses.map((dayCourses) => [...dayCourses]),
+      }
+    }
     return weeks[weeknumber - 1] || { dailyCourses: [] }
-  }, [weeks, weeknumber])
+  }, [weeks, weeknumber, allCourses])
 
   // 稳定新同学课程数据引用
   const newStudentWeek = useMemo(() => {
+    if (weeknumber === -1) {
+      return {
+        dailyCourses: newStudentAllCourses.map((dayCourses) => [...dayCourses]),
+      }
+    }
     return (
       newStudentWeeks?.find((w) => w.weekNumber === weeknumber) || {
         dailyCourses: [],
@@ -307,7 +317,6 @@ const CourseTable: FC<Iprops> = ({
   const handleDragEnd = useCallback(() => {
     if (!floatingBox || !floatingBox.isDragging) return
     if (!floatingBox.isEmptyActiveBox) {
-      console.log(1)
       const { width: cellWidth, height: cellHeight } = gridCellSize.current
       const dayOffset = cellWidth
         ? Math.round(floatingBox.offsetX / cellWidth)
@@ -356,15 +365,13 @@ const CourseTable: FC<Iprops> = ({
       const heightInCells = cellHeight
         ? Math.round(stretchedHeight as number * 2 / cellHeight)
         : 1
-      console.log(heightInCells)
       // 计算底部到达的节数
       const bottomSection = Math.min(
         allSections.length,
-        floatingBox.section + heightInCells - 1,
+        floatingBox.section + heightInCells + 1,
       )
       // 传递起始节数和结束节数
       setNewsectionend(bottomSection)
-      console.log(newsectionend)
     }
     setFloatingBox(null)
   }, [

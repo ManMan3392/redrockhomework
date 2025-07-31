@@ -45,10 +45,10 @@ const Head: FC<Iprops> = (props) => {
     <HeaderWrapper>
       <div className="header">
         <div className="week-navigation">
-          {currentWeek !== -1 ? (
-            <h2>第{formatNumber(currentWeek)}周</h2>
-          ) : (
+          {currentWeek === 0 ? (
             <h2>整学期</h2>
+          ) : (
+            <h2>第{formatNumber(currentWeek)}周</h2>
           )}
         </div>
         <div
@@ -69,10 +69,8 @@ const Head: FC<Iprops> = (props) => {
               onWeekChange(todayInfo.weekNumber)
             } else {
               onWeekChange(-1)
-              console.log(1)
             }
-
-            //else回到整学期
+            
           }}
         >
           回到本周

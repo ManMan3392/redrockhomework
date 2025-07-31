@@ -24,7 +24,7 @@ export const HomeWrapper = styled.div`
     background-position: center;
     background-size: cover;
     transition: height 0.5s ease;
-    z-index: 9;
+    z-index: 900000;
   }
   .Courses {
     position: absolute;

@@ -142,22 +142,23 @@ export const DetailWrapper = styled.div`
   .carousel-indicators {
     position: absolute;
     height: 43px;
-    width: 80px;
+    width: 100%;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
     span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      width: 9px;
+      height: 9px;
+      border-radius: 5px;
       background: rgba(0, 0, 0, 0.5);
-      margin-right: 10px;
+      margin-right: 6px;
       cursor: pointer;
+      transition: all 0.3s ease;
       &.active {
         background: rgb(116, 114, 228);
-        width: 15px;
+        width: 14px;
         border-radius: 4px;
       }
     }

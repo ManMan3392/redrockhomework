@@ -76,6 +76,7 @@ const ChangePage: FC<Iprops> = ({ isChangePage, isPush, setIsChangePage, chooseW
         <div className="weeknumber">
           {WEEKNUMBER.map((item, index) => (
             <div
+              key={item}
               className="weeknumber-item"
               style={{
                 color: newweeknumber.includes(index)

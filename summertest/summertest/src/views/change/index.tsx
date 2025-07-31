@@ -51,57 +51,6 @@ const Change: FC<Iprops> = () => {
   }, [target, dispatch]); // 添加dispatch依赖
   
 
-  // 添加检查时间段是否有课程的函数
-  const checkTimeConflict = () => {
-    // 获取所有周课程数据
-    let hasCourse = false;
-    let conflictCourses: any[] = [];
-
-    weeknumber.forEach(week => {
-      for (let i = 0; i < daynumber.length; i++) {
-        const day = daynumber[i];
-        const sectionInfo = section[i];
-        const startSection = sectionInfo[0];
-        const endSection = sectionInfo[1];
-
-        // 查找对应周的数据
-        const weekData = weeksData.find(w => w.weekNumber === week);
-        if (weekData) {
-          // 获取对应天的课程
-          const dayCourses = weekData.dailyCourses[day] || [];
-
-          // 检查是否有课程在该时间段
-          dayCourses.forEach(course => {
-            const courseEndSection = Number(course.section) + Number(course.cycle || 0);
-            const isOverlap = (
-              (startSection >= Number(course.section) && startSection < Number(courseEndSection)) ||
-              (endSection > Number(course.section) && endSection <= Number(courseEndSection)) ||
-              (startSection <= Number(course.section) && endSection >= Number(courseEndSection))
-            );
-
-            if (isOverlap) {
-              hasCourse = true;
-              conflictCourses.push({
-                week,
-                day,
-                courseName: course.name,
-                courseSection: `${course.section}-${courseEndSection - 1}`
-              });
-            }
-          });
-        }
-      }
-    });
-
-    console.log('时间段是否有课程:', hasCourse);
-    if (hasCourse) {
-      console.log('冲突的课程:', conflictCourses);
-    }
-
-    return hasCourse;
-  };
-
-  // 修改handleNextClick函数，在添加课程前调用检查函数
   const handleNextClick = () => {
     if (inputValue || isSliding !== 0) {
       setIsSliding(isSliding + 1)
@@ -113,8 +62,7 @@ const Change: FC<Iprops> = () => {
       }
       setRecords((prev) => [...prev, inputValue])
       if (isSliding === 2) {
-        // 调用检查函数并打印结果
-        const hasConflict = checkTimeConflict();
+       
 
         weeknumber.forEach(week => {
           for (let i = 0; i < daynumber.length; i++) {
