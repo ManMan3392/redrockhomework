@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "types": ["vue"],
+    "moduleResolution": "Node"
+  },
+  "vueCompilerOptions": {
+    "globalTypesPath": "./node_modules/vue/dist/vue.d.ts"
+  },
+  "exclude": ["node_modules"]
+}

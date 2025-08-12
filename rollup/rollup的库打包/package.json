@@ -1,0 +1,42 @@
+{
+  "name": "rollup_lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:rollup\" \"pnpm dev:server\"",
+    "dev:rollup": "rollup -c --environment NODE_ENV:development -w",
+    "dev:server": "wds",
+    "build": "rollup --environment NODE_ENV:production -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@vue/compiler-sfc": "^3.5.18",
+    "@web/dev-server": "^0.4.6",
+    "concurrently": "^9.2.0",
+    "mime": "3.0.0",
+    "postcss": "^8.5.6",
+    "postcss-preset-env": "^10.2.4",
+    "rollup": "^4.46.2",
+    "rollup-plugin-dev": "^2.1.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^3.0.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "rollup-plugin-watch": "^1.0.5"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "lodash": "^4.17.21",
+    "vue": "^3.5.18"
+  }
+}
